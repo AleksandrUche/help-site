@@ -1,0 +1,234 @@
+{% extends 'gost/documents.html' %}
+{% load static %}
+{% load filters %}
+{% load verbose_names %}
+
+{% block title %}ГОСТ 33259-2015{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $('#id_type_fl').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'type_fl': this.value}, // получаем данные формы
+                url: "{% url 'gost33259' %}",
+                success: function (response) {
+                    $('#id_dn_passage').empty()
+                    $('#id_dn_passage').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите DN'
+                    }));
+                    for (let i = 0; i < response.dn_passage_option.length; i++) {
+                        $('#id_dn_passage').append($('<option>', {
+                            value: response.dn_passage_option[i],
+                            text: response.dn_passage_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+        $('#id_dn_passage').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'dn_passage': this.value, 'type_fl': $("#id_type_fl option:selected").val()},
+                url: "{% url 'gost33259' %}",
+
+                success: function (response) {
+                    $('#id_pn').empty()
+                    $('#id_pn').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите PN'
+                    }));
+                    for (let i = 0; i < response.pn_option.length; i++) {
+                        $('#id_pn').append($('<option>', {
+                            value: response.pn_option[i],
+                            text: response.pn_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block documents_main %}
+
+    <form class="row g-3" action="{% url 'gost33259' %}" method="POST">
+        {% csrf_token %}
+        <div class="col-xxl-3 col-lg-6">
+            <label>{{ form.type_fl.label }}</label>
+            <select name="{{ form.type_fl.name }}" id="id_type_fl" class="form-select"
+                    aria-label="Default select example">
+                {% for value, text in form.type_fl.field.choices %}
+                    <option value="{{ value }}">{{ text }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-xxl-3 col-lg-6">
+            <label>{{ form.surface.label }}</label>
+            <select name="{{ form.surface.name }}" id="id_surface" class="form-select"
+                    aria-label="Default select example">'Выберите поверхность'
+                <option value="None">Выберите поверхность</option>
+                {% for value, text in form.surface.field.choices %}
+                    <option value="{{ value }}">{{ text }}</option>
+                {% endfor %}
+                <div class="form-error">{{ form.surface.errors }}</div>
+            </select>
+        </div>
+        <div class="col-xxl-3 col-lg-6">
+            <label>{{ form.dn_passage.label }}</label>
+            <select name="{{ form.dn_passage.name }}" id="id_dn_passage" class="form-select"
+                    aria-label="Default select example">
+            </select>
+        </div>
+        <div class="col-xxl-3 col-lg-6">
+            <label>{{ form.pn.label }}</label>
+            <select name="{{ form.pn.name }}" id="id_pn" class="form-select"
+                    aria-label="Default select example">
+            </select>
+        </div>
+        <div class="col-12 gy-3">
+            <input type="submit" value="Найти" class="btn btn-primary">
+        </div>
+    </form>
+
+
+    {% if flange_data %}
+
+        <div class="row align-items-center">
+            {% for ft in drawing_flange_type %}
+                <div class="col-xl-8 col-md-12">
+                    <img class="mx-auto d-block align-middle" src="{{ ft.flange_drawing.url }}">
+                    <p class="text-center">Тип фланца "{{ form.type_fl.value }}"</p>
+                </div>
+            {% endfor %}
+
+            {% for fs in drawing_flange_surface %}
+                <div class="col-xl-4 col-md-12">
+                    <img class="mx-auto d-block align-middle" src="{{ fs.surface_drawing.url }}">
+                    <p class="text-center">Уплотнительная поверхность "{{ form.surface.value }}"</p>
+                </div>
+            {% endfor %}
+        </div>
+
+
+        <div class="row">
+            <div class="col-xl-8 col-md-12">
+                <table class="table table-bordered caption-top">
+                    <caption>Размеры фланца</caption>
+                    <thead>
+                    <tr>
+                        {% for value in flange_data %}
+                            {% for field in fields_type %}
+                                <th class="text-center" scope="col">{{ value|get_verbose_field_name:field }}</th>
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for value in flange_data %}
+                            {% for field in fields_type %}
+                                <td class="text-center">{{ value|getattribute:field }}</td>
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xl-4 col-md-12">
+                <table class="table table-bordered caption-top">
+                    <caption>Размеры уплотнительной поверхности</caption>
+                    <thead>
+                    <tr>
+                        {% for value in surface_data %}
+                            {% for field in fields_surface %}
+                                <th class="align-middle text-center"
+                                    scope="col">{{ value|get_verbose_field_name:field }}</th>
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for value in surface_data %}
+                            {% for field in fields_surface %}
+                                <td class="text-center">{{ value|getattribute:field }}</td>
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% if mass_flange %}
+            <p class="fw-bold">Масса фланца: {{ mass_flange }} кг</p>
+        {% else %}
+            <p class="fw-bold">В ГОСТ не указана масса на такое давление</p>
+        {% endif %}
+
+    {% else %}
+        <div class="row align-items-center mt-3">
+            <div class="col">
+                <img src="{% static 'images/gosts/gost33259-2015/01.png' %}" class="mx-auto d-block align-middle"
+                     alt="Тип 01">
+                <p class="text-center">Тип фланца 01</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gosts/gost33259-2015/02.png' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Тип 02">
+                <p class="text-center">Тип фланца 02</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gosts/gost33259-2015/11.png' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Тип 11">
+                <p class="text-center">Тип фланца 11</p>
+            </div>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col">
+                <img src="{% static 'images/gosts/gost33259-2015/surface/execution_B.jpg' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Уплотнительная поверхность B">
+                <p class="text-center">Уплотнительная поверхность B</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gosts/gost33259-2015/surface/execution_C.jpg' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Уплотнительная поверхность C">
+                <p class="text-center">Уплотнительная поверхность C</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gosts/gost33259-2015/surface/execution_D.jpg' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Уплотнительная поверхность D">
+                <p class="text-center">Уплотнительная поверхность D</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gosts/gost33259-2015/surface/execution_E.jpg' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Уплотнительная поверхность E">
+                <p class="text-center">Уплотнительная поверхность E</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gosts/gost33259-2015/surface/execution_F.jpg' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Уплотнительная поверхность F">
+                <p class="text-center">Уплотнительная поверхность F</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends 'gost/documents.html' %}
+{% load static %}
+{% load filters %}
+{% load verbose_names %}
+
+{% block title %}ГОСТ 6533-78{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $('#id_drawing').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'drawing': this.value}, // получаем данные формы
+                url: "{% url 'gost6533' %}",
+                success: function (response) {
+                    $('#id_diameter').empty()
+                    $('#id_diameter').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите диаметр'
+                    }));
+                    for (let i = 0; i < response.diameter_option.length; i++) {
+                        $('#id_diameter').append($('<option>', {
+                            value: response.diameter_option[i],
+                            text: response.diameter_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+        $('#id_diameter').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'diameter': this.value, 'drawing': $("#id_drawing option:selected").val()},
+                url: "{% url 'gost6533' %}",
+                success: function (response) {
+                    $('#id_thickness').empty()
+                    $('#id_thickness').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите толщину'
+                    }));
+                    for (let i = 0; i < response.thickness_option.length; i++) {
+                        $('#id_thickness').append($('<option>', {
+                            value: response.thickness_option[i],
+                            text: response.thickness_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+
+{% block documents_main %}
+
+    <form class="row" action="{% url 'gost6533' %}" method="POST">
+        {% csrf_token %}
+        <div class="col-4">
+            <label>{{ form.drawing.label }}</label>
+            <select name="{{ form.drawing.name }}" id="id_drawing" class="form-select"
+                    aria-label="Default select example">
+                {% for value, text in form.drawing.field.choices %}
+                    <option value="{{ value }}">{{ text }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-4">
+            <label>{{ form.diameter.label }}</label>
+            <select name="{{ form.diameter.name }}" id="id_diameter" class="form-select" aria-label="Default select example">
+            </select>
+        </div>
+        <div class="col-4">
+            <label>{{ form.thickness.label }}</label>
+            <select name="{{ form.thickness.name }}" id="id_thickness" class="form-select"
+                    aria-label="Default select example">
+            </select>
+        </div>
+        <div class="col-12 gy-3">
+            <input type="submit" value="Найти" class="btn btn-primary">
+        </div>
+    </form>
+
+    {% if bottom_data %}
+
+        <div class="row align-items-center">
+            {% for ft in drawing_bottom %}
+                <div>
+                    <img class="mx-auto d-block align-middle" src="{{ ft.execution_drawing.url }}">
+                    <p class="text-center">Чертеж "{{ form.drawing.value }}"</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <table class="table table-bordered caption-top">
+                    <caption>Размеры днища</caption>
+                    <thead>
+                    <tr>
+                        {% for value in bottom_data %}
+                            {% for field in field_values %}
+                                <th class="text-center" scope="col">{{ value|get_verbose_field_name:field }}</th>
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for value in bottom_data %}
+                            {% for field in field_values %}
+                                <td class="text-center">{{ value|getattribute:field }}</td>
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    {% else %}
+
+        <div class="row align-items-center mt-3">
+            <div class="col">
+                <img src="{% static 'images/gosts/bottom/gost6533/drawing1.png' %}" class="mx-auto d-block align-middle"
+                     alt="Чертеж 1">
+                <p class="text-center">Чертеж 1</p>
+                <div class="text-center">
+                    Основные размеры днищ с наружными базовыми размерами<br>
+                    и высотой эллиптической части hн = 0,25 &#215 Dн
+                </div>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gosts/bottom/gost6533/drawing2.png' %}" class="mx-auto d-block align-middle"
+                     alt="Чертеж 2">
+                <p class="text-center">Чертеж 2</p>
+                <div class="text-center">
+                    Основные размеры днищ с внутренними базовыми размерами<br>
+                    и высотой эллиптической части hв = 0,25 &#215 Dв
+                </div>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gosts/bottom/gost6533/drawing2.png' %}" class="mx-auto d-block align-middle"
+                     alt="Чертеж 3">
+                <p class="text-center">Чертеж 3</p>
+                <div class="text-center">
+                    Основные размеры днищ с внутренними базовыми размерами<br>
+                    и высотой эллиптической части hв = 0,2 &#215 Dв
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

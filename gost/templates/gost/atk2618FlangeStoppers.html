@@ -1,0 +1,150 @@
+{% extends 'gost/documents.html' %}
+{% load static %}
+{% load filters %}
+{% load verbose_names %}
+
+{% block title %}АТК 26-18-5-93{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $('#id_execution').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'execution': this.value}, // получаем данные формы
+                url: "{% url 'atk26185' %}",
+                success: function (response) {
+                    $('#id_pn').empty()
+                    $('#id_pn').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите давление'
+                    }));
+                    for (let i = 0; i < response.pn_option.length; i++) {
+                        $('#id_pn').append($('<option>', {
+                            value: response.pn_option[i],
+                            text: response.pn_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+        $('#id_pn').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'pn': this.value, 'execution': $("#id_execution option:selected").val()},
+                url: "{% url 'atk26185' %}",
+                success: function (response) {
+                    $('#id_dn_passage').empty()
+                    $('#id_dn_passage').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите условный проход'
+                    }));
+                    for (let i = 0; i < response.dn_passage_option.length; i++) {
+                        $('#id_dn_passage').append($('<option>', {
+                            value: response.dn_passage_option[i],
+                            text: response.dn_passage_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block documents_main %}
+
+    <form class="row" action="{% url 'atk26185' %}" method="POST">
+        {% csrf_token %}
+        <div class="col-4">
+            <label>{{ form.execution.label }}</label>
+            <select name="{{ form.execution.name }}" id="id_execution" class="form-select"
+                    aria-label="Default select example">
+                {% for value, text in form.execution.field.choices %}
+                    <option value="{{ value }}">{{ text }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-4">
+            <label>{{ form.pn.label }}</label>
+            <select name="{{ form.pn.name }}" id="id_pn" class="form-select"
+                    aria-label="Default select example">
+            </select>
+        </div>
+        <div class="col-4">
+            <label>{{ form.dn_passage.label }}</label>
+            <select name="{{ form.dn_passage.name }}" id="id_dn_passage" class="form-select"
+                    aria-label="Default select example">
+            </select>
+        </div>
+        <div class="col-12 gy-3">
+            <input type="submit" value="Найти" class="btn btn-primary">
+        </div>
+    </form>
+
+
+    {% if flange_data %}
+
+        <div class="row align-items-center">
+            {% for ft in drawing_flange_execution %}
+                <div>
+                    <img class="mx-auto d-block align-middle" src="{{ ft.execution_drawing.url }}">
+                    <p class="text-center">Исполнение заглушки "{{ form.execution.value }}"</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <table class="table table-bordered caption-top">
+                    <caption>Размеры заглушки</caption>
+                    <thead>
+                    <tr>
+                        {% for value in flange_data %}
+                            {% for field in fields_exec %}
+                                <th class="text-center" scope="col">{{ value|get_verbose_field_name:field }}</th>
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for value in flange_data %}
+                            {% for field in fields_exec %}
+                                <td class="text-center">{{ value|getattribute:field }}</td>
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    {% else %}
+
+        <div class="row align-items-center my-3">
+            <div class="col">
+                <img src="{% static 'images/gosts/flange_stoppers/atk26185/exec1.png' %}" class="mx-auto d-block align-middle"
+                     alt="Исполнение 1">
+                <p class="text-center">Исполнение 1</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gosts/flange_stoppers/atk26185/exec2.png' %}" class="mx-auto d-block align-middle"
+                     alt="Исполнение 2">
+                <p class="text-center">Исполнение 2</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gosts/flange_stoppers/atk26185/exec3.png' %}" class="mx-auto d-block align-middle"
+                     alt="Исполнение 3">
+                <p class="text-center">Исполнение 3</p>
+            </div>
+        </div>
+
+    {% endif %}
+{% endblock %}

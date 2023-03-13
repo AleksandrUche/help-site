@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block documents %}
+    <div class="container">
+        <div class="row">
+            <aside class="col-3 gy-4">
+                <div class="list-group">
+                    <a class="list-group-item list-group-item-primary">Фланцы</a>
+                    <a href="{% url 'gost33259' %}" class="list-group-item list-group-item-action">ГОСТ 33259-2015</a>
+                    <a href="{% url 'atk261813' %}" class="list-group-item list-group-item-action">АТК 26-18-13-96</a>
+                    <a class="list-group-item list-group-item-primary">Заглушки</a>
+                    <a href="{% url 'atk24200' %}" class="list-group-item list-group-item-action">АТК 24.200.02-90</a>
+                    <a href="{% url 'atk26185' %}" class="list-group-item list-group-item-action">АТК 26-18-5-93</a>
+                    <a class="list-group-item list-group-item-primary">Днища</a>
+                    <a href="{% url 'gost6533' %}" class="list-group-item list-group-item-action">ГОСТ 6533-78</a>
+                </div>
+            </aside>
+
+
+
+            <main class="col-9 gy-4">
+                {% block documents_main %}
+                    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0"
+                                    class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                                    aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                                    aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3"
+                                    aria-label="Slide 4"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="4"
+                                    aria-label="Slide 5"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="5"
+                                    aria-label="Slide 6"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="6"
+                                    aria-label="Slide 7"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" data-bs-interval="1300">
+                                <img src="{% static 'images/gosts/slider/slide1.png' %}" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2300">
+                                <img src="{% static 'images/gosts/slider/slide2.png' %}" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2300">
+                                <img src="{% static 'images/gosts/slider/slide3.png' %}" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2300">
+                                <img src="{% static 'images/gosts/slider/slide4.png' %}" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2300">
+                                <img src="{% static 'images/gosts/slider/slide5.png' %}" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2300">
+                                <img src="{% static 'images/gosts/slider/slide6.png' %}" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2300">
+                                <img src="{% static 'images/gosts/slider/slide7.png' %}" class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Предыдущий</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Следующий</span>
+                        </button>
+                    </div>
+                {% endblock %}
+            </main>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==4.1.3"
+pillow = "==9.3.0"
+asgiref = "==3.5.2"
+document = "==1.0"
+sqlparse = "==0.4.3"
+tzdata = "==2022.6"
+django-debug-toolbar = "~=3.8.1"
+django-allauth = "*"
+crispy-bootstrap4 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
