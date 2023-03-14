@@ -4,10 +4,19 @@
 {% block title %}Регистрация{% endblock %}
 
 {% block content %}
-    <h2>Регистрация</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form | crispy }}
-        <button class="btn btn-success" type="submit">Зарегистрироваться</button>
-    </form>
+    <div class="shadow-lg p-3 mb-5 bg-white rounded mt-5 col-lg-6 col-xxl-4 vstack gap-2 col-md-5 mx-auto">
+        <h2 class="mt-3 text-center">Регистрация</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mt-5">
+                <div class="my-2">
+                    {{ form.email | as_crispy_field }}
+                </div>
+                <div>
+                    {{ form.password1 | as_crispy_field }}
+                </div>
+            </div>
+            <button class="btn btn-success my-3 d-grid mx-auto" type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
 {% endblock %}
