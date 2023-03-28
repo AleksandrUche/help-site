@@ -3,7 +3,7 @@ from django.db import models
 
 class Documents(models.Model):
     title = models.CharField(max_length=30)
-    slug = models.SlugField(max_length=30, unique=True, db_index=True, verbose_name="URL")
+    url = models.SlugField(max_length=30, unique=True, db_index=True, verbose_name="URL")
     description = models.CharField(max_length=200)
     cat_id = models.ForeignKey('CategoryDoc', on_delete=models.PROTECT, verbose_name="Категории")
 
