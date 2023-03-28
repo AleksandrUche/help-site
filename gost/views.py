@@ -118,7 +118,6 @@ class Atk261813View(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
-        print(request.POST)
 
         if form.is_valid():
             execution = form.cleaned_data['execution']
@@ -213,7 +212,6 @@ class Atk24200FlangeStoppersView(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
-        print(request.POST)
 
         if form.is_valid():
             execution = form.cleaned_data['execution']
@@ -252,7 +250,6 @@ class Atk26185FlangeStoppersView(View):
 
             if execution and not pn:
                 pn_option = list(objects_exec_fl.objects.values_list('pn', flat=True).distinct())
-                print(pn_option)
                 return JsonResponse({'pn_option': pn_option}, status=200)
 
             if execution and pn:
@@ -263,7 +260,6 @@ class Atk26185FlangeStoppersView(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
-        print(request.POST)
 
         if form.is_valid():
             execution = form.cleaned_data['execution']
