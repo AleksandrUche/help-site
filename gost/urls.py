@@ -1,4 +1,3 @@
-import document as document
 from django.urls import path
 from .views import *
 
