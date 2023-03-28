@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # Локальные
     'gost',  # Приложение ГОСТов
     'home',  # Главная страница, обратная связь, о сайте
+    'capacitive_equipment',
     # 'users',
 ]
 

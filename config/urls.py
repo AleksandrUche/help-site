@@ -10,7 +10,7 @@ urlpatterns = [
     path('', include('home.urls')),
     path('accounts/', include('allauth.urls')),
     path('documents/', include('gost.urls')),
-
+    path('calc-capacitive-equipment/', include('capacitive_equipment.urls')),
 ]
 
 if settings.DEBUG:
