@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <aside class="col-3 gy-4">
+                <div class="list-group">
+                    <a class="list-group-item list-group-item-primary">Меню</a>
+                    <a href="{% url 'add_calc_capac' %}" class="list-group-item list-group-item-action">Создать обсчет</a>
+                    <a href="{% url 'all_calc_capac' %}" class="list-group-item list-group-item-action">Все обсчеты</a>
+
+                </div>
+            </aside>
+
+
+
+            <main class="col-9 gy-4">
+                {% block сalc_сapacitive_main %}
+
+                {% endblock %}
+            </main>
+
+        </div>
+    </div>
+{% endblock %}

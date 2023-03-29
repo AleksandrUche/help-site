@@ -1,0 +1,14 @@
+{% extends 'capacitive_equipment/base_calc_capacitive.html' %}
+{% load static %}
+
+{% block title %}Все обсчеты{% endblock %}
+
+{% block сalc_сapacitive_main %}
+    {% for elem in object_list %}
+        <p>Наименование аппарата: {{ elem.name_equipment }}</p>
+        <p>Тип аппарата: {{ elem.type_equipment }}</p>
+        <p>Номер наряд-заказа:{{ elem.calc_number }}</p>
+        <p>Автор: {{ elem.author }}</p>
+        <p>___________________________________________________</p>
+    {% endfor %}
+{% endblock %}
