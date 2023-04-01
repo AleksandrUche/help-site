@@ -5,7 +5,10 @@ from django.utils import timezone
 
 class TypeEquipment(models.Model):
     """Тип оборудования(аппарат горизонтальный/вертикальный и т.д.)"""
-    name = models.CharField('Тип аппарата', max_length=30)
+    name = models.CharField('Тип аппарата', max_length=30, help_text='горизонтальный/вертикальный')
+
+    def __str__(self):
+        return self.name
 
 
 class Material(models.Model):
@@ -13,22 +16,30 @@ class Material(models.Model):
     name = models.CharField('Наименование металла', max_length=30)
     density = models.DecimalField('Плотность металла (кг/м3)', max_digits=6, decimal_places=3)
 
+    def __str__(self):
+        return self.name
+
 
 class NameCapacitiveEquipment(models.Model):  # Основные данные обсчета (название и т.д.)
     """Модель для инициализации обсчетов"""
     name_equipment = models.CharField('Наименование аппарата', max_length=60)  # Наименование "Аппарат емкостной ..."
     type_equipment = models.ForeignKey(TypeEquipment,
                                        on_delete=models.SET_NULL,
-                                       null=True)  # Тип аппарата (горизонтальный/вертикальный)
+                                       null=True,
+                                       verbose_name='Тип аппарата')  # Тип аппарата (горизонтальный/вертикальный)
     calc_number = models.CharField('Наряд-заказ №', max_length=30)  # Номер обсчета (№2055)
     author = models.ForeignKey(User,
                                on_delete=models.SET_DEFAULT,
                                null=True,
-                               default='пользователь удален')  # Автор
+                               default='пользователь удален',
+                               verbose_name='Автор обсчета')  # Автор
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
 
     def __str__(self):
         return self.calc_number
+
+    class Meta:
+        ordering = ['-created_date']
 
 
 class Parameter(models.Model):
