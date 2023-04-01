@@ -7,7 +7,7 @@ from capacitive_equipment.forms import *
 
 
 class CalcCapacitiveEquipmentView(LoginRequiredMixin, TemplateView):
-    '''Начальная страница обсчетов'''
+    """Начальная страница обсчетов"""
 
     template_name = 'capacitive_equipment/base_calc_capacitive.html'
     extra_context = {'title': 'Обсчеты'}

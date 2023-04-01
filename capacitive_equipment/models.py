@@ -8,13 +8,19 @@ class TypeEquipment(models.Model):
     name = models.CharField('Тип аппарата', max_length=30)
 
 
+class Material(models.Model):
+    """Плотность металлов"""
+    name = models.CharField('Наименование металла', max_length=30)
+    density = models.DecimalField('Плотность металла (кг/м3)', max_digits=6, decimal_places=3)
+
+
 class NameCapacitiveEquipment(models.Model):  # Основные данные обсчета (название и т.д.)
     """Модель для инициализации обсчетов"""
     name_equipment = models.CharField('Наименование аппарата', max_length=60)  # Наименование "Аппарат емкостной ..."
     type_equipment = models.ForeignKey(TypeEquipment,
                                        on_delete=models.SET_NULL,
                                        null=True)  # Тип аппарата (горизонтальный/вертикальный)
-    calc_number = models.CharField('Наряд-заказ', max_length=30)  # Номер обсчета (№2055)
+    calc_number = models.CharField('Наряд-заказ №', max_length=30)  # Номер обсчета (№2055)
     author = models.ForeignKey(User,
                                on_delete=models.SET_DEFAULT,
                                null=True,
@@ -23,6 +29,11 @@ class NameCapacitiveEquipment(models.Model):  # Основные данные о
 
     def __str__(self):
         return self.calc_number
+
+
+class Parameter(models.Model):
+    # support_capacitive_device =
+    pass
 
 
 class Fitting(models.Model):  # ШТУЦЕРЫ
@@ -43,6 +54,10 @@ class BasePipe(models.Model):
     length = models.DecimalField('Длинна', max_digits=8, decimal_places=3)  # Длинна втулки
     quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
     calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+    material = models.ForeignKey(Material,
+                                 on_delete=models.SET_DEFAULT,
+                                 null=True,
+                                 default='не указан')
 
     def __str__(self):
         return self.diameter, self.thickness
@@ -65,12 +80,15 @@ class CaseDevice(BasePipe):  # КОРПУС аппарата
 
 class Bottoms(models.Model):
     """Днища, которые входят в обсчет"""
+
     calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
 
 
 class OtherProducts(models.Model):  # ПРОЧИЕ изделия
-    """Прочие изделия, например"""
+    """Прочие изделия, например скобы для теплоизоляции и т.д"""
     name = models.CharField('Наименование изделия', max_length=60)  # Наименование изделия
     weight = models.DecimalField('Масса', max_digits=9, decimal_places=3)  # Масса
     quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
     calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+
+
