@@ -43,8 +43,51 @@ class NameCapacitiveEquipment(models.Model):  # Основные данные о
 
 
 class Parameter(models.Model):
-    # support_capacitive_device =
-    pass
+    """Все параметры аппарата"""
+    SUPPORT_CAPACITIVE_DEVICE_CHOICES = [
+        ('ОСТ 26-2091-93', 'Горизонтальные ОСТ 26-2091-93'),
+        ('АТК 24.200.03-90', 'Вертикальные АТК 24.200.03-90')
+    ]
+    calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+    support_capacitive_device = models.CharField(max_length=40,
+                                                 choices=SUPPORT_CAPACITIVE_DEVICE_CHOICES,
+                                                 verbose_name='Тип опор',
+                                                 )
+    support_capacitive_device_quantity = models.DecimalField('Количество опор', max_digits=3, decimal_places=1)
+    thermal_insulation = models.CharField('Наличие теплоизоляции', max_length=200)  # Возможно добавление выбора!
+    thermal_insulation_quantity = models.DecimalField('Количество крепления для теплоизоляции',
+                                                      max_digits=5,
+                                                      decimal_places=1
+                                                      )
+    thermal_insulation_type = models.CharField(max_length=10, choices=[('С2', 'Скоба С2'), ('В1', 'Втулка В1')],
+                                               verbose_name='Тип крепления для теплоизоляции',
+                                               )
+    overlays_service_platform = models.CharField(max_length=10, choices=[('Да', 'Да'), ('Нет', 'Нет')],
+                                                 verbose_name='Накладки для площадки',
+                                                 )
+    ladder = models.CharField(max_length=10,
+                              choices=[
+                                  ('Нет', 'Нет'),
+                                  ('Да, 1 шт.', 'Да, 1 шт.'),
+                                  ('Да, 2 шт.', 'Да, 2 шт.'),
+                              ],
+                              verbose_name='Лестница внутри аппарата',
+                              )
+    hydrogen_sulfide = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
+                                        verbose_name='Содержание сероводорода',
+                                        )
+    hydrogen_sulfide_group = models.CharField('Группа по ГОСТ 34233.1-2017', max_length=5, blank=True, null=True)
+    corrosion = models.DecimalField('Коррозия, мм', max_digits=3, decimal_places=1)
+    service_life = models.DecimalField('Срок службы, лет', max_digits=3, decimal_places=1)
+    heat_treatment = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
+                                      verbose_name='Термообработка',
+                                      )
+    working_temperature = models.CharField('Температура рабочая', max_length=40)
+    calculated_temperature = models.CharField('Температура расчетная', max_length=10)
+    design_pressure = models.CharField('Расчетное давление', max_length=10)
+    density = models.CharField('Плотность рабочей среды', max_length=50)
+    steaming_temperature = models.CharField('Температура пропарки', max_length=100)
+    seismic_activity = models.CharField('Сейсмичность, баллов', max_length=5)
 
 
 class Fitting(models.Model):  # ШТУЦЕРЫ
@@ -101,5 +144,3 @@ class OtherProducts(models.Model):  # ПРОЧИЕ изделия
     weight = models.DecimalField('Масса', max_digits=9, decimal_places=3)  # Масса
     quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
     calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
-
-
