@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -35,6 +36,9 @@ class NameCapacitiveEquipment(models.Model):  # Основные данные о
                                verbose_name='Автор обсчета')  # Автор
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
 
+    def get_absolute_url(self):
+        return reverse('detail_calc_view', kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.calc_number
 
@@ -43,7 +47,7 @@ class NameCapacitiveEquipment(models.Model):  # Основные данные о
 
 
 class Parameter(models.Model):
-    """Все параметры аппарата"""
+    """Параметры аппарата"""
     SUPPORT_CAPACITIVE_DEVICE_CHOICES = [
         ('ОСТ 26-2091-93', 'Горизонтальные ОСТ 26-2091-93'),
         ('АТК 24.200.03-90', 'Вертикальные АТК 24.200.03-90')
@@ -66,11 +70,7 @@ class Parameter(models.Model):
                                                  verbose_name='Накладки для площадки',
                                                  )
     ladder = models.CharField(max_length=10,
-                              choices=[
-                                  ('Нет', 'Нет'),
-                                  ('Да, 1 шт.', 'Да, 1 шт.'),
-                                  ('Да, 2 шт.', 'Да, 2 шт.'),
-                              ],
+                              choices=[('Нет', 'Нет'), ('Да, 1 шт.', 'Да, 1 шт.'), ('Да, 2 шт.', 'Да, 2 шт.'), ],
                               verbose_name='Лестница внутри аппарата',
                               )
     hydrogen_sulfide = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
@@ -88,6 +88,21 @@ class Parameter(models.Model):
     density = models.CharField('Плотность рабочей среды', max_length=50)
     steaming_temperature = models.CharField('Температура пропарки', max_length=100)
     seismic_activity = models.CharField('Сейсмичность, баллов', max_length=5)
+    coating_external = models.CharField('Наружное покрытие', max_length=200)
+    coating_internal = models.CharField('Внутренне покрытие', max_length=200)
+    conservation_requirement = models.CharField('Требование консервации', max_length=150)
+    visual_identification = models.CharField('Требования к визуальной идентификации', max_length=200)
+    spare_parts = models.CharField('ЗИП', max_length=200)
+    departures_fittings = models.CharField('Вылеты штуцеров', max_length=250)
+    flange_coils = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
+                                    verbose_name='Наличие фланцевых катушек',
+                                    )
+    rotary_fl_stoppers = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
+                                          verbose_name='Наличие поворотных заглушек',
+                                          )
+
+    def __str__(self):
+        return self.calculation_id
 
 
 class Fitting(models.Model):  # ШТУЦЕРЫ
@@ -100,47 +115,41 @@ class Fitting(models.Model):  # ШТУЦЕРЫ
     def __str__(self):
         return self.name
 
+    class BasePipe(models.Model):
+        """Базовая модель для патрубков/втулок/обечаек"""
+        diameter = models.DecimalField('Диаметр', max_digits=8, decimal_places=3)  # Диаметр
+        thickness = models.DecimalField('Толщина', max_digits=8, decimal_places=3)  # Толщина
+        length = models.DecimalField('Длинна', max_digits=8, decimal_places=3)  # Длинна втулки
+        quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
+        calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+        material = models.ForeignKey(Material,
+                                     on_delete=models.SET_DEFAULT,
+                                     null=True,
+                                     default='не указан')
 
-class BasePipe(models.Model):
-    """Базовая модель для патрубков/втулок/обечаек"""
-    diameter = models.DecimalField('Диаметр', max_digits=8, decimal_places=3)  # Диаметр
-    thickness = models.DecimalField('Толщина', max_digits=8, decimal_places=3)  # Толщина
-    length = models.DecimalField('Длинна', max_digits=8, decimal_places=3)  # Длинна втулки
-    quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
-    calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
-    material = models.ForeignKey(Material,
-                                 on_delete=models.SET_DEFAULT,
-                                 null=True,
-                                 default='не указан')
+        def __str__(self):
+            return self.diameter, self.thickness
 
-    def __str__(self):
-        return self.diameter, self.thickness
+        class Meta:
+            abstract = True
 
-    class Meta:
-        abstract = True
+    class Bushing(BasePipe):  # ВТУЛКИ
+        """Модель для втулок"""
 
+    class BranchPipe(BasePipe):  # ПАТРУБКИ
+        """Модель для труб"""
 
-class Bushing(BasePipe):  # ВТУЛКИ
-    """Модель для втулок"""
+    class CaseDevice(BasePipe):  # КОРПУС аппарата
+        """Корпус аппарата"""
 
+    class Bottoms(models.Model):
+        """Днища, которые входят в обсчет"""
 
-class BranchPipe(BasePipe):  # ПАТРУБКИ
-    """Модель для труб"""
+        calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
 
-
-class CaseDevice(BasePipe):  # КОРПУС аппарата
-    """Корпус аппарата"""
-
-
-class Bottoms(models.Model):
-    """Днища, которые входят в обсчет"""
-
-    calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
-
-
-class OtherProducts(models.Model):  # ПРОЧИЕ изделия
-    """Прочие изделия, например скобы для теплоизоляции и т.д"""
-    name = models.CharField('Наименование изделия', max_length=60)  # Наименование изделия
-    weight = models.DecimalField('Масса', max_digits=9, decimal_places=3)  # Масса
-    quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
-    calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+    class OtherProducts(models.Model):  # ПРОЧИЕ изделия
+        """Прочие изделия, например скобы для теплоизоляции и т.д"""
+        name = models.CharField('Наименование изделия', max_length=60)  # Наименование изделия
+        weight = models.DecimalField('Масса', max_digits=9, decimal_places=3)  # Масса
+        quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
+        calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)

@@ -1,7 +1,7 @@
 {% extends 'capacitive_equipment/base_calc_capacitive.html' %}
 {% load static %}
 
-{% block title %}Все обсчеты{% endblock %}
+{% block title %}Обсчет{% endblock %}
 
 {% block сalc_сapacitive_main %}
     {% for elem in object_list %}
@@ -9,7 +9,8 @@
         <p>Тип аппарата: {{ elem.type_equipment }}</p>
         <p>Наряд-заказа №: {{ elem.calc_number }}</p>
         <p>Автор: {{ elem.author }}</p>
-        <a class="" href="{{ elem.get_absolute_url }}">Открыть обсчет</a>
+{#        <p>Время создания: {{ elem.created_date|date:"d-m-Y H:i:s" }}</p>#}
+{#        <a class="" href="{{ elem.get_absolute_url }}">Редактировать</a>#}
         <p>___________________________________________________</p>
     {% endfor %}
 {% endblock %}
