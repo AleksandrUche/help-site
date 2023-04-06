@@ -1,0 +1,15 @@
+{% extends 'capacitive_equipment/base_calc_capacitive.html' %}
+{% load static %}
+
+{% block title %}Обсчет{% endblock %}
+
+{% block сalc_сapacitive_main %}
+    <p>Наименование: {{ object.name_equipment }}</p>
+    <p>Тип аппарата: {{ object.type_equipment }}</p>
+    <p>Наряд-заказа №: {{ object.calc_number }}</p>
+    <p>Автор: {{ object.author }}</p>
+    <p>Время создания: {{ object.created_date|date:"d-m-Y H:i" }}</p>
+    <a class="" href="{% url 'update_name_calc_capac' object.pk %}">Редактировать</a>
+    <a class="" href="{% url '' %}">Добавить параметры</a>
+    <p>___________________________________________________</p>
+{% endblock %}

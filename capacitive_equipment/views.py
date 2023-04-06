@@ -12,29 +12,29 @@ class CalcCapacitiveEquipmentView(LoginRequiredMixin, TemplateView):
     extra_context = {'title': 'Обсчеты'}
 
 
-class AllCalcCapacitiveEquipmentView(LoginRequiredMixin, ListView):
+class AllCalcNameCapacitiveEquipmentView(LoginRequiredMixin, ListView):
     """Все обсчеты"""
-    template_name = 'capacitive_equipment/all_calc_capacitive.html'
+    template_name = 'capacitive_equipment/all_name_calc_capacitive.html'
     model = NameCapacitiveEquipment
 
 
-class AddCalcCapacitiveEquipmentView(LoginRequiredMixin, CreateView):
+class AddCalcNameCapacitiveEquipmentView(LoginRequiredMixin, CreateView):
     """Добавление обсчета"""
-    template_name = 'capacitive_equipment/add_calc_capacitive.html'
+    template_name = 'capacitive_equipment/add_name_calc_capacitive.html'
     form_class = AddCapacEquipmentForm
     # success_url = reverse_lazy('all_calc_capac')
 
 
-class DetailCalcCapacitiveEquipmentView(LoginRequiredMixin, DetailView):
+class DetailCalcNameCapacitiveEquipmentView(LoginRequiredMixin, DetailView):
     """Просмотр определенного обсчета"""
     model = NameCapacitiveEquipment
     fields = ['name_equipment', 'type_equipment', 'calc_number', 'author', 'created_date']
-    template_name = 'capacitive_equipment/detail_calc_capacitive.html'
+    template_name = 'capacitive_equipment/detail_name_calc_capacitive.html'
 
 
-class UpdateCalcCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):
+class UpdateCalcNameCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):
     """Редактирование обсчета"""
     model = NameCapacitiveEquipment
     fields = ['name_equipment', 'type_equipment', 'calc_number', 'author']
-    template_name = 'capacitive_equipment/update_calc_capacitive.html'
-    success_url = reverse_lazy('all_calc_capac')
+    template_name = 'capacitive_equipment/update_name_calc_capacitive.html'
+    # success_url = reverse_lazy('all_calc_capac')

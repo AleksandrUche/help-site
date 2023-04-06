@@ -37,7 +37,7 @@ class NameCapacitiveEquipment(models.Model):  # Основные данные о
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
 
     def get_absolute_url(self):
-        return reverse('detail_calc_view', kwargs={'pk': self.pk})
+        return reverse('detail_name_calc_capac', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.calc_number
