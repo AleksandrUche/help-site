@@ -1,0 +1,11 @@
+{% extends 'capacitive_equipment/base_calc_capacitive.html' %}
+{% load static %}
+
+{% block title %}Параметры обсчета{% endblock %}
+
+{% block сalc_сapacitive_main %}
+    <p>Параметры к наряд заказу № {{ object.calculation_id }}</p>
+
+    <a class="" href="{% url 'update_parameter_calc_capac' object.pk %}">Редактировать</a>
+    <p>___________________________________________________</p>
+{% endblock %}

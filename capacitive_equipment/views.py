@@ -1,6 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse, reverse_lazy
-from django.views import View
 from django.views.generic import ListView, TemplateView, CreateView, DeleteView, UpdateView, DetailView
 
 from capacitive_equipment.forms import *
@@ -21,7 +19,7 @@ class AllCalcNameCapacitiveEquipmentView(LoginRequiredMixin, ListView):
 class AddCalcNameCapacitiveEquipmentView(LoginRequiredMixin, CreateView):
     """Добавление обсчета"""
     template_name = 'capacitive_equipment/add_name_calc_capacitive.html'
-    form_class = AddCapacEquipmentForm
+    form_class = AddNameCapacEquipmentForm
     # success_url = reverse_lazy('all_calc_capac')
 
 
@@ -38,3 +36,23 @@ class UpdateCalcNameCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):
     fields = ['name_equipment', 'type_equipment', 'calc_number', 'author']
     template_name = 'capacitive_equipment/update_name_calc_capacitive.html'
     # success_url = reverse_lazy('all_calc_capac')
+
+
+class AddCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, CreateView):
+    """Добавление параметров аппарата емкостного"""
+    template_name = 'capacitive_equipment/add_name_calc_capacitive.html'
+    form_class = AddParameterCapacEquipmentForm
+
+
+class DetailCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, DetailView):
+    """Просмотр определенного обсчета"""
+    model = Parameter
+    fields = '__all__'
+    template_name = 'capacitive_equipment/detail_parameter_calc_capacitive.html'
+
+
+class UpdateCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):
+    """Редактирование параметров обсчета"""
+    model = Parameter
+    fields = '__all__'
+    template_name = 'capacitive_equipment/update_parameter_calc_capacitive.html'

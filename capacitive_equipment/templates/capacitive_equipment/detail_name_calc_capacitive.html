@@ -10,6 +10,6 @@
     <p>Автор: {{ object.author }}</p>
     <p>Время создания: {{ object.created_date|date:"d-m-Y H:i" }}</p>
     <a class="" href="{% url 'update_name_calc_capac' object.pk %}">Редактировать</a>
-    <a class="" href="{% url '' %}">Добавить параметры</a>
+    <a class="" href="{% url 'add_parameter_calc_capac' %}">Добавить параметры</a>
     <p>___________________________________________________</p>
 {% endblock %}

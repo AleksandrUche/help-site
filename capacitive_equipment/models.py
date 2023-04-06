@@ -52,7 +52,7 @@ class Parameter(models.Model):
         ('ОСТ 26-2091-93', 'Горизонтальные ОСТ 26-2091-93'),
         ('АТК 24.200.03-90', 'Вертикальные АТК 24.200.03-90')
     ]
-    calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+    calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE, verbose_name='Наряд заказ №', unique=True)
     support_capacitive_device = models.CharField(max_length=40,
                                                  choices=SUPPORT_CAPACITIVE_DEVICE_CHOICES,
                                                  verbose_name='Тип опор',
@@ -100,6 +100,9 @@ class Parameter(models.Model):
     rotary_fl_stoppers = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
                                           verbose_name='Наличие поворотных заглушек',
                                           )
+
+    def get_absolute_url(self):
+        return reverse('detail_parameter_calc_capac', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.calculation_id

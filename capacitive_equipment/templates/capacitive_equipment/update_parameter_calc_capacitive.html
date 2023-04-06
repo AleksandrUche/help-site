@@ -1,0 +1,15 @@
+{% extends 'capacitive_equipment/base_calc_capacitive.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Редактирование параметров обсчета{% endblock %}
+
+{% block сalc_сapacitive_main %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="mt-5">
+            {{ form | crispy }}
+        </div>
+        <button class="btn btn-success my-3 d-grid mx-auto" type="submit">Сохранить изменения</button>
+    </form>
+{% endblock %}
