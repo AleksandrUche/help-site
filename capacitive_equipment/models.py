@@ -21,6 +21,9 @@ class Material(models.Model):
         return self.name
 
 
+"""_____ОСНОВНЫЕ ПАРАМЕТРЫ ОБСЧЕТА_____"""
+
+
 class NameCapacitiveEquipment(models.Model):  # Основные данные обсчета (название и т.д.)
     """Модель для инициализации обсчетов"""
     name_equipment = models.CharField('Наименование аппарата', max_length=60)  # Наименование "Аппарат емкостной ..."
@@ -28,7 +31,7 @@ class NameCapacitiveEquipment(models.Model):  # Основные данные о
                                        on_delete=models.SET_NULL,
                                        null=True,
                                        verbose_name='Тип аппарата')  # Тип аппарата (горизонтальный/вертикальный)
-    calc_number = models.CharField('Наряд-заказ №', max_length=30)  # Номер обсчета (№2055)
+    calc_number = models.CharField('Наряд-заказ №', max_length=30, unique=True)  # Номер обсчета (№2055)
     author = models.ForeignKey(User,
                                on_delete=models.SET_DEFAULT,
                                null=True,
@@ -52,7 +55,7 @@ class Parameter(models.Model):
         ('ОСТ 26-2091-93', 'Горизонтальные ОСТ 26-2091-93'),
         ('АТК 24.200.03-90', 'Вертикальные АТК 24.200.03-90')
     ]
-    calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE, verbose_name='Наряд заказ №', unique=True)
+    calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE, verbose_name='Наряд заказ №')
     support_capacitive_device = models.CharField(max_length=40,
                                                  choices=SUPPORT_CAPACITIVE_DEVICE_CHOICES,
                                                  verbose_name='Тип опор',
@@ -106,6 +109,9 @@ class Parameter(models.Model):
 
     def __str__(self):
         return self.calculation_id
+
+
+"""_____МОДЕЛИ ДЛЯ ОБСЧЕТА МАСС_____"""
 
 
 class Fitting(models.Model):  # ШТУЦЕРЫ

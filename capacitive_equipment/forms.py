@@ -5,7 +5,7 @@ from capacitive_equipment.models import NameCapacitiveEquipment, Parameter
 class AddNameCapacEquipmentForm(forms.ModelForm):
     class Meta:
         model = NameCapacitiveEquipment
-        fields = ['name_equipment', 'type_equipment', 'calc_number', 'author']
+        fields = ['name_equipment', 'type_equipment', 'calc_number']
 
 
 class AddParameterCapacEquipmentForm(forms.ModelForm):

@@ -1,3 +1,4 @@
+import requests
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, TemplateView, CreateView, DeleteView, UpdateView, DetailView
 
@@ -20,7 +21,10 @@ class AddCalcNameCapacitiveEquipmentView(LoginRequiredMixin, CreateView):
     """Добавление обсчета"""
     template_name = 'capacitive_equipment/add_name_calc_capacitive.html'
     form_class = AddNameCapacEquipmentForm
-    # success_url = reverse_lazy('all_calc_capac')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class DetailCalcNameCapacitiveEquipmentView(LoginRequiredMixin, DetailView):
