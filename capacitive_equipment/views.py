@@ -37,7 +37,7 @@ class DetailCalcNameCapacitiveEquipmentView(LoginRequiredMixin, DetailView):
 class UpdateCalcNameCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):
     """Редактирование обсчета"""
     model = NameCapacitiveEquipment
-    fields = ['name_equipment', 'type_equipment', 'calc_number', 'author']
+    fields = ['name_equipment', 'type_equipment', 'calc_number']
     template_name = 'capacitive_equipment/update_name_calc_capacitive.html'
     # success_url = reverse_lazy('all_calc_capac')
 
