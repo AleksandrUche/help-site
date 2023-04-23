@@ -60,12 +60,9 @@ class Parameter(models.Model):
                                                  choices=SUPPORT_CAPACITIVE_DEVICE_CHOICES,
                                                  verbose_name='Тип опор',
                                                  )
-    support_capacitive_device_quantity = models.DecimalField('Количество опор', max_digits=3, decimal_places=1)
+    support_capacitive_device_quantity = models.IntegerField('Количество опор')
     thermal_insulation = models.CharField('Наличие теплоизоляции', max_length=200)  # Возможно добавление выбора!
-    thermal_insulation_quantity = models.DecimalField('Количество крепления для теплоизоляции',
-                                                      max_digits=5,
-                                                      decimal_places=1
-                                                      )
+    thermal_insulation_quantity = models.IntegerField('Количество крепления для теплоизоляции')
     thermal_insulation_type = models.CharField(max_length=10, choices=[('С2', 'Скоба С2'), ('В1', 'Втулка В1')],
                                                verbose_name='Тип крепления для теплоизоляции',
                                                )
@@ -80,8 +77,8 @@ class Parameter(models.Model):
                                         verbose_name='Содержание сероводорода',
                                         )
     hydrogen_sulfide_group = models.CharField('Группа по ГОСТ 34233.1-2017', max_length=5, blank=True, null=True)
-    corrosion = models.DecimalField('Коррозия, мм', max_digits=3, decimal_places=1)
-    service_life = models.DecimalField('Срок службы, лет', max_digits=3, decimal_places=1)
+    corrosion = models.IntegerField('Коррозия, мм')
+    service_life = models.IntegerField('Срок службы, лет')
     heat_treatment = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
                                       verbose_name='Термообработка',
                                       )
