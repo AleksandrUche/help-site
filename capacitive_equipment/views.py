@@ -1,4 +1,3 @@
-import requests
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, TemplateView, CreateView, DeleteView, UpdateView, DetailView
 
@@ -39,13 +38,16 @@ class UpdateCalcNameCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):
     model = NameCapacitiveEquipment
     fields = ['name_equipment', 'type_equipment', 'calc_number']
     template_name = 'capacitive_equipment/update_name_calc_capacitive.html'
-    # success_url = reverse_lazy('all_calc_capac')
 
 
 class AddCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, CreateView):
     """Добавление параметров аппарата емкостного"""
     template_name = 'capacitive_equipment/add_name_calc_capacitive.html'
     form_class = AddParameterCapacEquipmentForm
+
+    def form_valid(self, form, *args, **kwargs):
+        form.instance.calculation_id_id = self.kwargs['pk']
+        return super().form_valid(form)
 
 
 class DetailCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, DetailView):
