@@ -12,13 +12,13 @@ class CalcCapacitiveEquipmentView(LoginRequiredMixin, TemplateView):
 
 class AllCalcNameCapacitiveEquipmentView(LoginRequiredMixin, ListView):
     """Все обсчеты"""
-    template_name = 'capacitive_equipment/all_name_calc_capacitive.html'
+    template_name = 'capacitive_equipment/all_name_calс.html'
     model = NameCapacitiveEquipment
 
 
 class AddCalcNameCapacitiveEquipmentView(LoginRequiredMixin, CreateView):
     """Добавление обсчета"""
-    template_name = 'capacitive_equipment/add_name_calc_capacitive.html'
+    template_name = 'capacitive_equipment/add_name_calc.html'
     form_class = AddNameCapacEquipmentForm
 
     def form_valid(self, form):
@@ -30,19 +30,19 @@ class DetailCalcNameCapacitiveEquipmentView(LoginRequiredMixin, DetailView):
     """Просмотр определенного обсчета"""
     model = NameCapacitiveEquipment
     fields = ['name_equipment', 'type_equipment', 'calc_number', 'author', 'created_date']
-    template_name = 'capacitive_equipment/detail_name_calc_capacitive.html'
+    template_name = 'capacitive_equipment/detail_name_calc.html'
 
 
 class UpdateCalcNameCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):
     """Редактирование обсчета"""
     model = NameCapacitiveEquipment
     fields = ['name_equipment', 'type_equipment', 'calc_number']
-    template_name = 'capacitive_equipment/update_name_calc_capacitive.html'
+    template_name = 'capacitive_equipment/update_name_calc.html'
 
 
 class AddCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, CreateView):
     """Добавление параметров аппарата емкостного"""
-    template_name = 'capacitive_equipment/add_name_calc_capacitive.html'
+    template_name = 'capacitive_equipment/add_name_calc.html'
     form_class = AddParameterCapacEquipmentForm
 
     def form_valid(self, form, *args, **kwargs):
@@ -54,11 +54,11 @@ class DetailCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, DetailView)
     """Просмотр определенного обсчета"""
     model = Parameter
     fields = '__all__'
-    template_name = 'capacitive_equipment/detail_parameter_calc_capacitive.html'
+    template_name = 'capacitive_equipment/detail_parameter_calc.html'
 
 
 class UpdateCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):
     """Редактирование параметров обсчета"""
     model = Parameter
     fields = '__all__'
-    template_name = 'capacitive_equipment/update_parameter_calc_capacitive.html'
+    template_name = 'capacitive_equipment/update_parameter_calc.html'
