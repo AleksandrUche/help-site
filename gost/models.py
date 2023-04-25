@@ -75,18 +75,24 @@ class Gost33259AvailabilityFlange(models.Model):
         ordering = ['id']
 
 
-# Тип 01
+# Размеры фланцев ГОСТ 33259-2015 ТИП 01
 class Gost33259Type01(models.Model):
     dn_passage = models.IntegerField(verbose_name='DN')
     pn = models.CharField(max_length=6, verbose_name='PN')
-    dv_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='dв')
-    b_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='b')
+    dv_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='dв ряд 1')
+    dv_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='dв ряд 2')
+    b_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='b ряд 1')
+    b_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='b ряд 2')
     c1_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='c1')
-    d = models.CharField(blank=True, null=True, max_length=6, verbose_name='D')
+    d_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='D ряд 1')
+    d_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='D ряд 2')
     d1 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D1')
-    d_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='d')
-    n_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='n')
-    pin = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек')
+    d_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='d ряд 1')
+    d_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='d ряд 2')
+    n_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='n ряд 1')
+    n_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='n ряд 2')
+    pin_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 1')
+    pin_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 2')
 
     def __str__(self):
         return self.dn_passage
@@ -97,22 +103,31 @@ class Gost33259Type01(models.Model):
         ordering = ['id']
 
 
-# Тип 02
+# Размеры фланцев ГОСТ 33259-2015 ТИП 02
 class Gost33259Type02(models.Model):
     dn_passage = models.IntegerField(verbose_name='DN')
     pn = models.CharField(max_length=6, verbose_name='PN')
-    d0 = models.CharField(blank=True, null=True, max_length=15, verbose_name='D0')
+    d0_row_one = models.CharField(blank=True, null=True, max_length=15, verbose_name='D0 ряд 1')
+    d0_row_two = models.CharField(blank=True, null=True, max_length=15, verbose_name='D0 ряд 2')
     d2 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D2')
-    dv_lower = models.CharField(blank=True, null=True, max_length=15, verbose_name='dв')
-    b_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='b')
-    b1_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='b1')
-    c_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='c')
+    dv_lower_row_one = models.CharField(blank=True, null=True, max_length=15, verbose_name='dв ряд 1')
+    dv_lower_row_two = models.CharField(blank=True, null=True, max_length=15, verbose_name='dв ряд 2')
+    b_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='b ряд 1')
+    b_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='b ряд 2')
+    b1_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='b1 ряд 1')
+    b1_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='b1 ряд 2')
+    c_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='c ряд 1')
+    c_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='c ряд 2')
     c1_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='c1')
-    d = models.CharField(blank=True, null=True, max_length=6, verbose_name='D')
+    d_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='D ряд 1')
+    d_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='D ряд 2')
     d1 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D1')
-    d_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='d')
-    n_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='n')
-    pin = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек')
+    d_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='d ряд 1')
+    d_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='d ряд 2')
+    n_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='n ряд 1')
+    n_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='n ряд 2')
+    pin_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 1')
+    pin_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 2')
 
     def __str__(self):
         return self.dn_passage
@@ -123,27 +138,32 @@ class Gost33259Type02(models.Model):
         ordering = ['id']
 
 
-# Тип 11
+# Размеры фланцев ГОСТ 33259-2015 ТИП 11
 class Gost33259Type11(models.Model):
     dn_passage = models.IntegerField(verbose_name='DN')
     pn = models.CharField(max_length=6, verbose_name='PN')
-    dm = models.CharField(blank=True, null=True, max_length=6, verbose_name='Dm')
-    dn = models.CharField(blank=True, null=True, max_length=6, verbose_name='Dn')
-    d1_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='d1')
-    b_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='b')
-    h = models.CharField(blank=True, null=True, max_length=6, verbose_name='H')
+    dm_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='Dm ряд 1')
+    dm_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='Dm ряд 2')
+    dn_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='Dn ряд 1')
+    dn_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='Dn ряд 2')
+    d1_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='d1 ряд 1')
+    d1_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='d1 ряд 2')
+    b_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='b ряд 1')
+    b_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='b ряд 2')
+    h_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='H ряд 1')
+    h_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='H ряд 2')
     h1 = models.CharField(blank=True, null=True, max_length=6, verbose_name='H1')
-    d = models.CharField(blank=True, null=True, max_length=6, verbose_name='D')
+    d_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='D ряд 1')
+    d_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='D ряд 2')
     d1 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D1')
-    d_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='d')
-    n_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='n')
-    pin = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек')
+    d_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='d ряд 1')
+    d_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='d ряд 2')
+    n_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='n ряд 1')
+    n_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='n ряд 2')
+    pin_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 1')
+    pin_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 2')
 
     def __str__(self):
-        # field_values = []
-        # for field in self._meta.get_fields():
-        #     field_values.append(str(getattr(self, field.name, '')))
-        # return ' '.join(field_values)
         return self.dn_passage
 
     class Meta:
@@ -152,15 +172,19 @@ class Gost33259Type11(models.Model):
         ordering = ['id']
 
 
-# уплотнительные поверхности для всех фланцев ГОСТ 33259
+# уплотнительные поверхности для всех фланцев ГОСТ 33259-2015
 class Gost33259SurfaceValues(models.Model):
     dn_passage = models.CharField(max_length=6, verbose_name='DN')
     pn = models.CharField(max_length=6, verbose_name='PN')
     d2 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D2')
-    d3 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D3')
-    d4 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D4')
-    d5 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D5')
-    d6 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D6')
+    d3_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='D3 ряд 1')
+    d3_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='D3 ряд 2')
+    d4_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='D4 ряд 1')
+    d4_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='D4 ряд 2')
+    d5_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='D5 ряд 1')
+    d5_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='D5 ряд 2')
+    d6_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='D6 ряд 1')
+    d6_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='D6 ряд 2')
     d7 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D7')
     d8 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D8')
     d9 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D9')
