@@ -11,5 +11,6 @@
     <p>Время создания: {{ object.created_date|date:"d-m-Y H:i" }}</p>
     <a class="" href="{% url 'update_name_calc_capac' object.pk %}">Редактировать</a>
     <a class="" href="{% url 'add_parameter_calc_capac' object.pk %}">Добавить параметры</a>
+    <a class="" href="{% url 'detail_parameter_calc_capac' object.pk %}">Параметры обсчета</a>
     <p>___________________________________________________</p>
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.views.generic import ListView, TemplateView, CreateView, DeleteView, UpdateView, DetailView
 
 from capacitive_equipment.forms import *
@@ -46,12 +47,12 @@ class AddCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, CreateView):
     form_class = AddParameterCapacEquipmentForm
 
     def form_valid(self, form, *args, **kwargs):
-        form.instance.calculation_id_id = self.kwargs['pk']
+        form.instance.calculation_object_id = self.kwargs['pk']
         return super().form_valid(form)
 
 
 class DetailCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, DetailView):
-    """Просмотр определенного обсчета"""
+    """Просмотр параметров определенного обсчета"""
     model = Parameter
     fields = '__all__'
     template_name = 'capacitive_equipment/detail_parameter_calc.html'
@@ -60,5 +61,5 @@ class DetailCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, DetailView)
 class UpdateCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):
     """Редактирование параметров обсчета"""
     model = Parameter
-    fields = '__all__'
+    fields = [field.name for field in Parameter._meta.get_fields()][2:]
     template_name = 'capacitive_equipment/update_parameter_calc.html'

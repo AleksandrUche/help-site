@@ -5,6 +5,7 @@
 {% block title %}Редактирование параметров обсчета{% endblock %}
 
 {% block сalc_сapacitive_main %}
+    Наряд заказ №{{ object.calculation_object }}
     <form method="post">
         {% csrf_token %}
         <div class="mt-5">

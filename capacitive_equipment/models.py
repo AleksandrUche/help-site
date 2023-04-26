@@ -33,9 +33,7 @@ class NameCapacitiveEquipment(models.Model):  # Основные данные о
                                        verbose_name='Тип аппарата')  # Тип аппарата (горизонтальный/вертикальный)
     calc_number = models.CharField('Наряд-заказ №', max_length=30, unique=True)  # Номер обсчета (№2055)
     author = models.ForeignKey(User,
-                               on_delete=models.SET_DEFAULT,
-                               null=True,
-                               default='пользователь удален',
+                               on_delete=models.PROTECT,
                                verbose_name='Автор обсчета')  # Автор
     created_date = models.DateTimeField('Дата создания', default=timezone.now)
 
@@ -55,7 +53,9 @@ class Parameter(models.Model):
         ('ОСТ 26-2091-93', 'Горизонтальные ОСТ 26-2091-93'),
         ('АТК 24.200.03-90', 'Вертикальные АТК 24.200.03-90')
     ]
-    calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE, verbose_name='Наряд заказ №')
+    calculation_object = models.OneToOneField(NameCapacitiveEquipment,
+                                              on_delete=models.CASCADE,
+                                              )
     support_capacitive_device = models.CharField(max_length=40,
                                                  choices=SUPPORT_CAPACITIVE_DEVICE_CHOICES,
                                                  verbose_name='Тип опор',
@@ -70,16 +70,21 @@ class Parameter(models.Model):
                                                  verbose_name='Накладки для площадки',
                                                  )
     ladder = models.CharField(max_length=10,
-                              choices=[('Нет', 'Нет'), ('Да, 1 шт.', 'Да, 1 шт.'), ('Да, 2 шт.', 'Да, 2 шт.'), ],
+                              choices=[('Нет', 'Нет'), ('Да, 1 шт.', 'Да, 1 шт.'), ('Да, 2 шт.', 'Да, 2 шт.')],
                               verbose_name='Лестница внутри аппарата',
                               )
     hydrogen_sulfide = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
                                         verbose_name='Содержание сероводорода',
                                         )
-    hydrogen_sulfide_group = models.CharField('Группа по ГОСТ 34233.1-2017', max_length=5, blank=True, null=True)
+    hydrogen_sulfide_group = models.CharField('Группа по ГОСТ 34233.1-2017',
+                                              max_length=5,
+                                              blank=True,
+                                              null=True,
+                                              )
     corrosion = models.IntegerField('Коррозия, мм')
     service_life = models.IntegerField('Срок службы, лет')
-    heat_treatment = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
+    heat_treatment = models.CharField(max_length=5,
+                                      choices=[('Да', 'Да'), ('Нет', 'Нет')],
                                       verbose_name='Термообработка',
                                       )
     working_temperature = models.CharField('Температура рабочая', max_length=40)
@@ -94,10 +99,12 @@ class Parameter(models.Model):
     visual_identification = models.CharField('Требования к визуальной идентификации', max_length=200)
     spare_parts = models.CharField('ЗИП', max_length=200)
     departures_fittings = models.CharField('Вылеты штуцеров', max_length=250)
-    flange_coils = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
+    flange_coils = models.CharField(max_length=5,
+                                    choices=[('Да', 'Да'), ('Нет', 'Нет')],
                                     verbose_name='Наличие фланцевых катушек',
                                     )
-    rotary_fl_stoppers = models.CharField(max_length=5, choices=[('Да', 'Да'), ('Нет', 'Нет')],
+    rotary_fl_stoppers = models.CharField(max_length=5,
+                                          choices=[('Да', 'Да'), ('Нет', 'Нет')],
                                           verbose_name='Наличие поворотных заглушек',
                                           )
 
@@ -105,7 +112,7 @@ class Parameter(models.Model):
         return reverse('detail_parameter_calc_capac', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return self.calculation_id
+        return self.calculation_object
 
 
 """_____МОДЕЛИ ДЛЯ ОБСЧЕТА МАСС_____"""
@@ -127,11 +134,12 @@ class Fitting(models.Model):  # ШТУЦЕРЫ
         thickness = models.DecimalField('Толщина', max_digits=8, decimal_places=3)  # Толщина
         length = models.DecimalField('Длинна', max_digits=8, decimal_places=3)  # Длинна втулки
         quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
-        calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+        calculation_object = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
         material = models.ForeignKey(Material,
                                      on_delete=models.SET_DEFAULT,
                                      null=True,
-                                     default='не указан')
+                                     default='не указан',
+                                     )
 
         def __str__(self):
             return self.diameter, self.thickness
@@ -151,7 +159,7 @@ class Fitting(models.Model):  # ШТУЦЕРЫ
     class Bottoms(models.Model):
         """Днища, которые входят в обсчет"""
 
-        calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+        calculation = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
 
     class OtherProducts(models.Model):  # ПРОЧИЕ изделия
         """Прочие изделия, например скобы для теплоизоляции и т.д"""
