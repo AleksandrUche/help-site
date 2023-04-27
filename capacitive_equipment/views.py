@@ -56,6 +56,7 @@ class DetailCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, DetailView)
     model = Parameter
     fields = '__all__'
     template_name = 'capacitive_equipment/detail_parameter_calc.html'
+    slug_field = 'calculation_object_id'
 
 
 class UpdateCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):

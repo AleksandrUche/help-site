@@ -17,6 +17,6 @@ urlpatterns = [
          name='add_parameter_calc_capac'),
     path('update-parameter-calc/<int:pk>/', UpdateCalcParameterCapacitiveEquipmentView.as_view(),
          name='update_parameter_calc_capac'),
-    path('detail-parameter-calc/<int:pk>/', DetailCalcParameterCapacitiveEquipmentView.as_view(),
+    path('detail-parameter-calc/<int:slug>/', DetailCalcParameterCapacitiveEquipmentView.as_view(),
          name='detail_parameter_calc_capac'),
 ]
