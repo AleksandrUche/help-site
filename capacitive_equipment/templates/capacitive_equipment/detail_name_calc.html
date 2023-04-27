@@ -9,8 +9,13 @@
     <p>Наряд-заказа №: {{ object.calc_number }}</p>
     <p>Автор: {{ object.author }}</p>
     <p>Время создания: {{ object.created_date|date:"d-m-Y H:i" }}</p>
-    <a class="" href="{% url 'update_name_calc_capac' object.pk %}">Редактировать</a>
-    <a class="" href="{% url 'add_parameter_calc_capac' object.pk %}">Добавить параметры</a>
-    <a class="" href="{% url 'detail_parameter_calc_capac' object.pk %}">Параметры обсчета</a>
+    <a class="" href="{% url 'update_name_calc_capac' object.pk %}">Редактировать обсчет</a>
+
+    {% if object.parameters.exists %}
+        <a class="" href="{% url 'detail_parameter_calc_capac' object.pk %}">Параметры обсчета</a>
+    {% else %}
+        <a class="" href="{% url 'add_parameter_calc_capac' object.pk %}">Добавить параметры обсчета</a>
+    {% endif %}
+
     <p>___________________________________________________</p>
 {% endblock %}

@@ -53,9 +53,11 @@ class Parameter(models.Model):
         ('ОСТ 26-2091-93', 'Горизонтальные ОСТ 26-2091-93'),
         ('АТК 24.200.03-90', 'Вертикальные АТК 24.200.03-90')
     ]
-    calculation_object = models.OneToOneField(NameCapacitiveEquipment,
-                                              on_delete=models.CASCADE,
-                                              )
+    calculation_object = models.ForeignKey(NameCapacitiveEquipment,
+                                           related_name='parameters',
+                                           on_delete=models.CASCADE,
+                                           unique=True,
+                                           )
     support_capacitive_device = models.CharField(max_length=40,
                                                  choices=SUPPORT_CAPACITIVE_DEVICE_CHOICES,
                                                  verbose_name='Тип опор',
