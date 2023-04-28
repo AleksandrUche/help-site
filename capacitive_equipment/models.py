@@ -111,7 +111,7 @@ class Parameter(models.Model):
                                           )
 
     def get_absolute_url(self):
-        return reverse('detail_parameter_calc_capac', kwargs={'pk': self.pk})
+        return reverse('detail_parameter_calc_capac', kwargs={'slug': self.pk})
 
     def __str__(self):
         return self.calculation_object
