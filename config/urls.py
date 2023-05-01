@@ -11,6 +11,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('documents/', include('gost.urls')),
     path('calc-capacitive-equipment/', include('capacitive_equipment.urls')),
+    path('calculator_weight/', include('calculator_weight.urls'))
 ]
 
 if settings.DEBUG:

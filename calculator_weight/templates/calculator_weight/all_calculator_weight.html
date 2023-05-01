@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <aside class="col-3 gy-4">
+                <div class="list-group">
+                    <a class="list-group-item list-group-item-primary">Металлопрокат (массы)</a>
+                    <a href="{% url 'corner_equal' %}"
+                       class="list-group-item list-group-item-action">
+                        Уголок равнополочный
+                    </a>
+                    <a href="{% url 'corner_different' %}"
+                       class="list-group-item list-group-item-action">
+                        Уголок неравнополочный
+                    </a>
+                    <a href="{% url 'circle' %}"
+                       class="list-group-item list-group-item-action">
+                        Круг
+                    </a>
+                    <a href="{% url 'square' %}"
+                       class="list-group-item list-group-item-action">
+                        Квадрат
+                    </a>
+                    <a href="{% url 'sheet' %}"
+                       class="list-group-item list-group-item-action">
+                        Лист
+                    </a>
+                    <a href="{% url 'tube' %}"
+                       class="list-group-item list-group-item-action">
+                        Труба
+                    </a>
+                    <a href="{% url 'profile_pipe' %}"
+                       class="list-group-item list-group-item-action">
+                        Профильная труба
+                    </a>
+                    <a href="#"
+                       class="list-group-item list-group-item-action">
+                        Швеллер
+                    </a>
+                    <a href="#"
+                       class="list-group-item list-group-item-action">
+                        Двутавр
+                    </a>
+                </div>
+            </aside>
+
+
+            <main class="col-9 gy-4">
+                {% block calculator_main %}
+
+                {% endblock %}
+            </main>
+
+        </div>
+    </div>
+{% endblock %}

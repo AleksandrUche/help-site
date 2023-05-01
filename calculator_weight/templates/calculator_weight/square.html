@@ -1,0 +1,24 @@
+{% extends 'calculator_weight/all_calculator_weight.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Масса квадрата{% endblock %}
+
+{% block calculator_main %}
+    <form method="GET">
+        <div class="mt-5">
+            {{ form | crispy }}
+        </div>
+
+        {% if weight %}
+            <div>
+                <p><strong>Масса: {{ weight }} кг</strong></p>
+            </div>
+        {% else %}
+
+        {% endif %}
+
+
+        <button class="btn btn-success my-3 d-grid mx-auto" type="submit">Рассчитать массу</button>
+    </form>
+{% endblock %}

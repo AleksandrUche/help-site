@@ -29,12 +29,14 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap4",
     'debug_toolbar',
-    'allauth',  # Регистрация / Авторизация
+    # Регистрация / Авторизация
+    'allauth',
     'allauth.account',
     # Локальные
     'gost',  # Приложение ГОСТов
     'home',  # Главная страница, обратная связь, о сайте
-    'capacitive_equipment',
+    'capacitive_equipment',  # Обсчеты емкостного оборудования
+    'calculator_weight',  # Узконаправленные калькуляторы
     # 'users',
 ]
 
