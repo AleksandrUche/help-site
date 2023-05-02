@@ -5,6 +5,8 @@
 {% block title %}Масса профильной трубы{% endblock %}
 
 {% block calculator_main %}
+    <img src="{% static 'images/calculator_weight/profile_pipe.png' %}" class="mx-auto d-block align-middle"
+         alt="Профильная труба">
     <form method="GET">
         <div class="mt-5">
             {{ form | crispy }}

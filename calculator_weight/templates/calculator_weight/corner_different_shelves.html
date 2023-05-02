@@ -5,6 +5,8 @@
 {% block title %}Масса уголка неравнополочного{% endblock %}
 
 {% block calculator_main %}
+    <img src="{% static 'images/calculator_weight/corner_different.png' %}" class="mx-auto d-block align-middle"
+         alt="Уголок не равнополочный">
     <form method="GET">
         <div class="mt-5">
             {{ form | crispy }}

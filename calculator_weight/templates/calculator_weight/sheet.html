@@ -5,6 +5,8 @@
 {% block title %}Масса листа{% endblock %}
 
 {% block calculator_main %}
+    <img src="{% static 'images/calculator_weight/sheet.png' %}" class="mx-auto d-block align-middle"
+         alt="Лист">
     <form method="GET">
         <div class="mt-5">
             {{ form | crispy }}

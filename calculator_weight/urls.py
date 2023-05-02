@@ -13,7 +13,7 @@ urlpatterns = [
     # Расчет массы квадрата
     path('square/', SquareView.as_view(), name='square'),
     # Расчет массы листа
-    path('metal-sheet/', SheetView.as_view(), name='sheet'),
+    path('sheet/', SheetView.as_view(), name='sheet'),
     # Расчет массы труб
     path('tube/', TubeView.as_view(), name='tube'),
     # Расчет массы профильной трубы

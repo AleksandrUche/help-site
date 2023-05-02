@@ -5,6 +5,8 @@
 {% block title %}Масса квадрата{% endblock %}
 
 {% block calculator_main %}
+    <img src="{% static 'images/calculator_weight/square.png' %}" class="mx-auto d-block align-middle"
+         alt="Квадрат">
     <form method="GET">
         <div class="mt-5">
             {{ form | crispy }}
