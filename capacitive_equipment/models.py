@@ -10,6 +10,11 @@ class TypeEquipment(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = 'тип емкостного аппарата'
+        verbose_name_plural = 'Тип оборудования'
+        
 
 
 class Material(models.Model):
@@ -19,6 +24,8 @@ class Material(models.Model):
 
     def __str__(self):
         return self.name
+    
+    
 
 
 """_____ОСНОВНЫЕ ПАРАМЕТРЫ ОБСЧЕТА_____"""
@@ -45,6 +52,8 @@ class NameCapacitiveEquipment(models.Model):  # Основные данные о
 
     class Meta:
         ordering = ['-created_date']
+        verbose_name = 'обсчеты'
+        verbose_name_plural = 'Обсчет (наименование)'
 
 
 class Parameter(models.Model):
@@ -115,6 +124,10 @@ class Parameter(models.Model):
 
     def __str__(self):
         return self.calculation_object
+    
+    class Meta:
+        verbose_name = 'параметры обсчета'
+        verbose_name_plural = 'Параметры обсчета'
 
 
 """_____МОДЕЛИ ДЛЯ ОБСЧЕТА МАСС_____"""
