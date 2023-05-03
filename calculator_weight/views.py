@@ -1,4 +1,5 @@
 from decimal import Decimal
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from calculator_weight.forms import *
@@ -19,23 +20,23 @@ class CornerEqualShelvesView(View):
     form_class = CornerEqualShelvesWeightForm
 
     def get(self, request):
-        form = self.form_class(request.GET)
 
-        if form.is_valid():
-            side = form.cleaned_data['side']
-            thickness = form.cleaned_data['thickness']
-            length = form.cleaned_data['length']
-            material = form.cleaned_data['material']
-            # Расчет массы уголка
-            calculation_weight = \
-                (side / 1000 * 2 - thickness / 1000) * thickness / 1000 * length / 1000 * Decimal(material)
-            # Округление до двух знаков после запятой
-            rounded_weight = calculation_weight.quantize(Decimal('1.00'))
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            form = self.form_class(request.GET)
 
-            return render(request,
-                          self.template_name,
-                          context={'form': self.form_class(request.GET), 'weight': rounded_weight},
-                          )
+            if form.is_valid():
+                side = form.cleaned_data['side']
+                thickness = form.cleaned_data['thickness']
+                length = form.cleaned_data['length']
+                material = form.cleaned_data['material']
+
+                # Расчет массы уголка
+                calculation_weight = \
+                    (side / 1000 * 2 - thickness / 1000) * thickness / 1000 * length / 1000 * Decimal(material)
+                # Округление до двух знаков после запятой
+                rounded_weight = calculation_weight.quantize(Decimal('1.00'))
+                return JsonResponse({'weight': rounded_weight}, status=200)
+
         return render(request, self.template_name, context={'form': self.form_class})
 
 
