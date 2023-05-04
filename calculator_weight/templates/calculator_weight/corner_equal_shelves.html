@@ -19,7 +19,6 @@
                 success: function (response) {
                     var res_el = document.getElementById("calc_result");
                     var weight = response.weight
-                    // res_el.innerHTML = '<p><strong>Масса ' + weight + ' кг</strong></p>'
                     res_el.innerHTML = `<p><strong>Масса ${weight} кг</strong></p>`
                 }
             });
@@ -36,9 +35,8 @@
         <div class="mt-5">
             {{ form | crispy }}
         </div>
-
         <p id="calc_result">Введите значения в миллиметрах</p>
-
         <button class="btn btn-success my-3 d-grid mx-auto" type="submit">Рассчитать массу</button>
     </form>
+
 {% endblock %}

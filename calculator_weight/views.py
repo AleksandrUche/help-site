@@ -34,7 +34,7 @@ class CornerEqualShelvesView(View):
                 calculation_weight = \
                     (side / 1000 * 2 - thickness / 1000) * thickness / 1000 * length / 1000 * Decimal(material)
                 # Округление до двух знаков после запятой
-                rounded_weight = calculation_weight.quantize(Decimal('1.00'))
+                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
                 return JsonResponse({'weight': rounded_weight}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
@@ -45,24 +45,25 @@ class CornerDifferentShelvesView(View):
     form_class = CornerDifferentShelvesWeightForm
 
     def get(self, request):
-        form = self.form_class(request.GET)
 
-        if form.is_valid():
-            side = form.cleaned_data['side']
-            side_b = form.cleaned_data['side_b']
-            thickness = form.cleaned_data['thickness']
-            length = form.cleaned_data['length']
-            material = form.cleaned_data['material']
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            form = self.form_class(request.GET)
 
-            # Расчет массы уголка не равнополочного
-            calculation_weight = \
-                (side / 1000 + side_b / 1000 - thickness / 1000) * thickness / 1000 * length / 1000 * Decimal(material)
-            # Округление до двух знаков после запятой
-            rounded_weight = calculation_weight.quantize(Decimal('1.00'))
+            if form.is_valid():
+                side = form.cleaned_data['side']
+                side_b = form.cleaned_data['side_b']
+                thickness = form.cleaned_data['thickness']
+                length = form.cleaned_data['length']
+                material = form.cleaned_data['material']
 
-            return render(request, self.template_name,
-                          context={'form': self.form_class(request.GET), 'weight': rounded_weight},
-                          )
+                # Расчет массы уголка не равнополочного
+                calculation_weight = \
+                    (side / 1000 + side_b / 1000 - thickness / 1000) * thickness / 1000 * length / 1000 * Decimal(
+                        material)
+                # Округление до двух знаков после запятой
+                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+
+                return JsonResponse({'weight': rounded_weight}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -72,21 +73,21 @@ class CircleView(View):
     form_class = CircleForm
 
     def get(self, request):
-        form = self.form_class(request.GET)
 
-        if form.is_valid():
-            diameter = form.cleaned_data['diameter']
-            length = form.cleaned_data['length']
-            material = form.cleaned_data['material']
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            form = self.form_class(request.GET)
 
-            # Расчет массы круга
-            calculation_weight = Decimal(math.pi) / 4 * Decimal(material) * (diameter / 1000) ** 2 * length / 1000
-            # Округление до двух знаков после запятой
-            rounded_weight = calculation_weight.quantize(Decimal('1.00'))
+            if form.is_valid():
+                diameter = form.cleaned_data['diameter']
+                length = form.cleaned_data['length']
+                material = form.cleaned_data['material']
 
-            return render(request, self.template_name,
-                          context={'form': self.form_class(request.GET), 'weight': rounded_weight},
-                          )
+                # Расчет массы круга
+                calculation_weight = Decimal(math.pi) / 4 * Decimal(material) * (diameter / 1000) ** 2 * length / 1000
+                # Округление до двух знаков после запятой
+                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+
+                return JsonResponse({'weight': rounded_weight}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -96,21 +97,21 @@ class SquareView(View):
     form_class = SquareForm
 
     def get(self, request):
-        form = self.form_class(request.GET)
 
-        if form.is_valid():
-            size = form.cleaned_data['size']
-            length = form.cleaned_data['length']
-            material = form.cleaned_data['material']
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            form = self.form_class(request.GET)
 
-            # Расчет массы квадрата
-            calculation_weight = Decimal(material) * (size / 1000) ** 2 * length / 1000
-            # Округление до двух знаков после запятой
-            rounded_weight = calculation_weight.quantize(Decimal('1.00'))
+            if form.is_valid():
+                size = form.cleaned_data['size']
+                length = form.cleaned_data['length']
+                material = form.cleaned_data['material']
 
-            return render(request, self.template_name,
-                          context={'form': self.form_class(request.GET), 'weight': rounded_weight},
-                          )
+                # Расчет массы квадрата
+                calculation_weight = Decimal(material) * (size / 1000) ** 2 * length / 1000
+                # Округление до двух знаков после запятой
+                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+
+                return JsonResponse({'weight': rounded_weight}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -120,22 +121,22 @@ class SheetView(View):
     form_class = SheetForm
 
     def get(self, request):
-        form = self.form_class(request.GET)
 
-        if form.is_valid():
-            side_a = form.cleaned_data['side_a']
-            side_b = form.cleaned_data['side_b']
-            thickness = form.cleaned_data['thickness']
-            material = form.cleaned_data['material']
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            form = self.form_class(request.GET)
 
-            # Расчет массы листа
-            calculation_weight = side_a / 1000 * side_b / 1000 * thickness / 1000 * Decimal(material)
-            # Округление до двух знаков после запятой
-            rounded_weight = calculation_weight.quantize(Decimal('1.00'))
+            if form.is_valid():
+                side_a = form.cleaned_data['side_a']
+                side_b = form.cleaned_data['side_b']
+                thickness = form.cleaned_data['thickness']
+                material = form.cleaned_data['material']
 
-            return render(request, self.template_name,
-                          context={'form': self.form_class(request.GET), 'weight': rounded_weight},
-                          )
+                # Расчет массы листа
+                calculation_weight = side_a / 1000 * side_b / 1000 * thickness / 1000 * Decimal(material)
+                # Округление до двух знаков после запятой
+                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+
+                return JsonResponse({'weight': rounded_weight}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -145,25 +146,25 @@ class TubeView(View):
     form_class = TubeForm
 
     def get(self, request):
-        form = self.form_class(request.GET)
 
-        if form.is_valid():
-            diameter = form.cleaned_data['diameter']
-            thickness = form.cleaned_data['thickness']
-            length = form.cleaned_data['length']
-            material = form.cleaned_data['material']
-            # Внутренний диаметр
-            inner_diameter = diameter / 1000 - 2 * thickness / 1000
-            # Площадь
-            square = Decimal(math.pi) / 4 * ((diameter / 1000) ** 2 - inner_diameter ** 2)
-            # Расчет массы листа
-            calculation_weight = square * length / 1000 * Decimal(material)
-            # Округление до двух знаков после запятой
-            rounded_weight = calculation_weight.quantize(Decimal('1.00'))
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            form = self.form_class(request.GET)
 
-            return render(request, self.template_name,
-                          context={'form': self.form_class(request.GET), 'weight': rounded_weight},
-                          )
+            if form.is_valid():
+                diameter = form.cleaned_data['diameter']
+                thickness = form.cleaned_data['thickness']
+                length = form.cleaned_data['length']
+                material = form.cleaned_data['material']
+                # Внутренний диаметр
+                inner_diameter = diameter / 1000 - 2 * thickness / 1000
+                # Площадь
+                square = Decimal(math.pi) / 4 * ((diameter / 1000) ** 2 - inner_diameter ** 2)
+                # Расчет массы листа
+                calculation_weight = square * length / 1000 * Decimal(material)
+                # Округление до двух знаков после запятой
+                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+
+                return JsonResponse({'weight': rounded_weight}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -173,23 +174,24 @@ class ProfilePipeView(View):
     form_class = ProfileTubeForm
 
     def get(self, request):
-        form = self.form_class(request.GET)
 
-        if form.is_valid():
-            side_a = form.cleaned_data['side_a']
-            side_b = form.cleaned_data['side_b']
-            thickness = form.cleaned_data['thickness']
-            material = form.cleaned_data['material']
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            form = self.form_class(request.GET)
 
-            # Расчет массы профильной трубы
-            calculation_weight = Decimal(material) / Decimal('7850') * Decimal('0.0157') * thickness * (
-                    side_a + side_b - Decimal('2.86') * thickness)
-            # Округление до двух знаков после запятой
-            rounded_weight = calculation_weight.quantize(Decimal('1.00'))
+            if form.is_valid():
+                side_a = form.cleaned_data['side_a']
+                side_b = form.cleaned_data['side_b']
+                thickness = form.cleaned_data['thickness']
+                length = form.cleaned_data['length']
+                material = form.cleaned_data['material']
 
-            return render(request, self.template_name,
-                          context={'form': self.form_class(request.GET), 'weight': rounded_weight},
-                          )
+                # Расчет массы профильной трубы
+                calculation_weight = (Decimal(material) / Decimal('7850') * Decimal('0.0157') * thickness * (
+                            side_a + side_b - Decimal('2.86') * thickness)) * length / 1000
+                # Округление до двух знаков после запятой
+                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+
+                return JsonResponse({'weight': rounded_weight}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
