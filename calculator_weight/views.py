@@ -1,3 +1,4 @@
+import importlib
 from decimal import Decimal
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -187,7 +188,7 @@ class ProfilePipeView(View):
 
                 # Расчет массы профильной трубы
                 calculation_weight = (Decimal(material) / Decimal('7850') * Decimal('0.0157') * thickness * (
-                            side_a + side_b - Decimal('2.86') * thickness)) * length / 1000
+                        side_a + side_b - Decimal('2.86') * thickness)) * length / 1000
                 # Округление до двух знаков после запятой
                 rounded_weight = calculation_weight.quantize(Decimal('1.000'))
 
@@ -196,10 +197,30 @@ class ProfilePipeView(View):
         return render(request, self.template_name, context={'form': self.form_class})
 
 
-class СhannelView(View):
-    # template_name = 'calculator_weight/channel.html'
-    # form_class = ChannelForm
-    pass
+def load_class_db(name_cls):
+    module_path = 'calculator_weight.models'
+    module = importlib.import_module(module_path)
+    my_class = getattr(module, name_cls)
+    return my_class
+
+
+class ChannelView(View):
+    template_name = 'calculator_weight/channel.html'
+    form_class = ChannelForm
+
+    def get(self, request):
+
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            type = request.GET.get('type')
+            name = request.GET.get('name')
+            length = request.GET.get('length')
+            # дописать логика
+
+        objects_channel = load_class_db(type)
+        channel_values = objects_channel.objects.filter(name=name)
+        # дописать формулы
+
+        return render(request, self.template_name, context={'form': self.form_class})
 
 
 class BeamView(View):

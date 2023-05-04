@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'calculator_weight/all_calculator_weight.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
 
-</body>
-</html>
+{% block title %}Масса швеллера{% endblock %}
+
+
+{% block calculator_main %}
+{#    <img src="{% static 'images/calculator_weight/circle.png' %}" class="mx-auto d-block align-middle"#}
+{#         alt="Круг">#}
+    <form id="form" method="GET">
+        <div class="mt-5">
+            {{ form | crispy }}
+        </div>
+        <p id="calc_result">Выберите значения</p>
+        <button class="btn btn-success my-3 d-grid mx-auto" type="submit">Рассчитать массу</button>
+    </form>
+
+{% endblock %}

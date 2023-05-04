@@ -55,8 +55,20 @@ class ProfileTubeForm(BaseCalculatorForm):
     field_order = ['side_a', 'side_b', 'thickness']
 
 
+CHANNEL = [
+    ('ChannelTypeY', 'С уклоном внутренних граней полок "У"'),
+    ('ChannelTypeP', 'С параллельными гранями полок "П"'),
+    ('ChannelTypeE', 'Экономичные с параллельными гранями полок "Э"'),
+    ('ChannelTypeL', 'Легкой серии с параллельными гранями полок "Л"'),
+    ('ChannelTypeC', 'Специальные "C"')
+]
+
+
 class ChannelForm(forms.Form):
-    pass
+    type = forms.ChoiceField(label='Тип швеллера', choices=CHANNEL)
+    name = forms.ChoiceField(label='Номер швеллера')
+    length = forms.DecimalField(label='Длина', max_digits=10, decimal_places=1)
+
 
 
 class BeamForm(forms.Form):
