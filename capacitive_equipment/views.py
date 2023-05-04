@@ -58,6 +58,11 @@ class DetailCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, DetailView)
     template_name = 'capacitive_equipment/detail_parameter_calc.html'
     slug_field = 'calculation_object_id'
 
+    def get_context_data(self, **kwargs):
+        context = super(DetailCalcParameterCapacitiveEquipmentView, self).get_context_data(**kwargs)
+        context['fields_name'] = [field.name for field in Parameter._meta.get_fields()][2:]
+        return context
+
 
 class UpdateCalcParameterCapacitiveEquipmentView(LoginRequiredMixin, UpdateView):
     """Редактирование параметров обсчета"""

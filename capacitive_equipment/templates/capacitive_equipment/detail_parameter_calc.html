@@ -1,11 +1,16 @@
 {% extends 'capacitive_equipment/base_calc_capacitive.html' %}
-{% load static %}
+{% load verbose_names %}
+{% load filters %}
 
 {% block title %}Параметры обсчета{% endblock %}
 
 {% block сalc_сapacitive_main %}
-    <p>Параметры к наряд заказу № {{ object.calculation_object }}</p>
-
+    <p><strong>Параметры к наряд заказу № {{ parameter.calculation_object }}</strong></p>
+    
+    {% for field in fields_name %}
+        <p><ins>{{ parameter|get_verbose_field_name:field }}</ins>: {{ parameter|getattribute:field }}</p>
+    {% endfor %}
+    
     <a class="" href="{% url 'update_parameter_calc_capac' object.pk %}">Редактировать параметры</a>
-    <p>___________________________________________________</p>
+    
 {% endblock %}
