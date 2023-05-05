@@ -4,11 +4,55 @@
 
 {% block title %}Масса швеллера{% endblock %}
 
+{% block javascripts %}
+
+    <script>
+        $('#id_type').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'type': $("#id_type option:selected").val()}, // получаем данные формы
+                url: "{% url 'channel' %}",
+                success: function (response) {
+                    $('#id_name').empty()
+                    $('#id_name').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите тип'
+                    }));
+                    for (let i = 0; i < response.channel_name_option.length; i++) {
+                        $('#id_name').append($('<option>', {
+                            value: response.channel_name_option[i],
+                            text: response.channel_name_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+        $('#id_form').submit(function (event) {
+            // предотвращение действий по умолчанию
+            event.preventDefault();
+            var data = $(this).serialize();
+            $.ajax({
+                type: "GET",
+                url: "{% url 'channel' %}",
+                data: data,
+                success: function (response) {
+                    var res_el = document.getElementById("calc_result");
+                    var weight = response.weight
+                    res_el.innerHTML = `<p><strong>Масса ${weight} кг</strong></p>`
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
 
 {% block calculator_main %}
 {#    <img src="{% static 'images/calculator_weight/circle.png' %}" class="mx-auto d-block align-middle"#}
 {#         alt="Круг">#}
-    <form id="form" method="GET">
+    <form id="id_form" method="GET">
         <div class="mt-5">
             {{ form | crispy }}
         </div>

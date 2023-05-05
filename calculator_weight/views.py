@@ -1,10 +1,11 @@
 import importlib
-from decimal import Decimal
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
-from calculator_weight.forms import *
+from .forms import *
+from .models import * 
 import math
+from decimal import Decimal
 
 
 class CalculatorWeighView(TemplateView):
@@ -211,14 +212,26 @@ class ChannelView(View):
     def get(self, request):
 
         if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            form = self.form_class(request.GET)
             type = request.GET.get('type')
             name = request.GET.get('name')
-            length = request.GET.get('length')
-            # дописать логика
 
-        objects_channel = load_class_db(type)
-        channel_values = objects_channel.objects.filter(name=name)
-        # дописать формулы
+            if type and not name:
+                objects_channel = load_class_db(type)
+                channel_name_option = list(objects_channel.objects.values_list('name', flat=True))
+                return JsonResponse({'channel_name_option': channel_name_option}, status=200)
+
+            if form.is_valid():
+                type = form.cleaned_data['type']
+                name = form.cleaned_data['name']
+                length = form.cleaned_data['length']
+
+                objects_channel = load_class_db(type)
+                weight_channel = objects_channel.objects.filter(name=name).values_list('weight', flat=True)
+                calculation_weight = Decimal(weight_channel[0]) * length / 1000
+                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+
+                return JsonResponse({'weight': rounded_weight}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 

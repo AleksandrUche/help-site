@@ -19,7 +19,7 @@ urlpatterns = [
     # Расчет массы профильной трубы
     path('profile-pipe/', ProfilePipeView.as_view(), name='profile_pipe'),
     # Расчет массы швеллера
-    path('channel/', СhannelView.as_view(), name='channel'),
+    path('channel/', ChannelView.as_view(), name='channel'),
     # Расчет массы двутавра
     path('beam/', BeamView.as_view(), name='beam'),
 ]
