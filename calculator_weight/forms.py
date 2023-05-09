@@ -71,5 +71,18 @@ class ChannelForm(forms.Form):
     length = forms.DecimalField(label='Длина, мм', max_digits=10, decimal_places=1)
 
 
+BEAM = [
+    (None, 'Выберите тип'),
+    ('BeamGost8239', 'Двутавр с уклоном полок'),
+    ('BeamGost26020TypeB', 'Нормальный двутавр "Б"'),
+    ('BeamGost26020TypeSh', 'Широкополочный двутавр "Ш"'),
+    ('BeamGost26020TypeK', 'Колонный двутавр "К"'),
+    ('BeamGost26020TypeD', 'Двутавр дополнительной серии "Д"'),
+    ('BeamGost26020TypeS', 'Сварной двутавр "С"')
+]
+
+
 class BeamForm(forms.Form):
-    pass
+    type = forms.ChoiceField(label='Тип двутавра', choices=BEAM)
+    name = forms.CharField(label='Номер двутавра', widget=forms.Select)
+    length = forms.DecimalField(label='Длина, мм', max_digits=10, decimal_places=1)

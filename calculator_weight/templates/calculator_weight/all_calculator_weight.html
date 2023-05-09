@@ -43,7 +43,7 @@
                        class="list-group-item list-group-item-action">
                         Швеллер
                     </a>
-                    <a href="#"
+                    <a href="{% url 'beam' %}"
                        class="list-group-item list-group-item-action">
                         Двутавр
                     </a>
@@ -51,7 +51,7 @@
             </aside>
 
 
-            <main class="col-8 gy-4">
+            <main class="col-md-8 col-xl-9 gy-4">
                 {% block calculator_main %}
 
                 {% endblock %}

@@ -14,10 +14,11 @@ class CalculatorWeighView(TemplateView):
     extra_context = {'title': 'Металлопрокат'}
 
 
-"""Металлопрокат"""
+"""Металлопрокат (массы)"""
 
 
 class CornerEqualShelvesView(View):
+    """Уголок равнополочный"""
     template_name = 'calculator_weight/corner_equal_shelves.html'
     form_class = CornerEqualShelvesWeightForm
 
@@ -43,6 +44,7 @@ class CornerEqualShelvesView(View):
 
 
 class CornerDifferentShelvesView(View):
+    """Уголок неравнополочный"""
     template_name = 'calculator_weight/corner_different_shelves.html'
     form_class = CornerDifferentShelvesWeightForm
 
@@ -71,6 +73,7 @@ class CornerDifferentShelvesView(View):
 
 
 class CircleView(View):
+    """Кругляк"""
     template_name = 'calculator_weight/circle.html'
     form_class = CircleForm
 
@@ -95,6 +98,7 @@ class CircleView(View):
 
 
 class SquareView(View):
+    """Квадрат"""
     template_name = 'calculator_weight/square.html'
     form_class = SquareForm
 
@@ -119,6 +123,7 @@ class SquareView(View):
 
 
 class SheetView(View):
+    """Лист"""
     template_name = 'calculator_weight/sheet.html'
     form_class = SheetForm
 
@@ -144,6 +149,7 @@ class SheetView(View):
 
 
 class TubeView(View):
+    """Трубы"""
     template_name = 'calculator_weight/tube.html'
     form_class = TubeForm
 
@@ -172,6 +178,7 @@ class TubeView(View):
 
 
 class ProfilePipeView(View):
+    """Профильные трубы"""
     template_name = 'calculator_weight/profile_pipe.html'
     form_class = ProfileTubeForm
 
@@ -206,39 +213,40 @@ def load_class_db(name_cls):
 
 
 class ChannelView(View):
+    """Швеллеры"""
     template_name = 'calculator_weight/channel.html'
     form_class = ChannelForm
 
     def get(self, request):
+        form = self.form_class(request.GET)
 
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.form_class(request.GET)
+        if form.is_valid():
+            type_channel = form.cleaned_data['type']
+            name = form.cleaned_data['name']
+            length = form.cleaned_data['length']
 
-            if form.is_valid():
-                type_channel = form.cleaned_data['type']
-                name = form.cleaned_data['name']
-                length = form.cleaned_data['length']
+            objects_channel = load_class_db(type_channel)
+            weight_channel = objects_channel.objects.get(name=name)
+            calculation_weight = Decimal(weight_channel.weight) * length / 1000
+            rounded_weight = calculation_weight.quantize(Decimal('1.0'))
 
-                objects_channel = load_class_db(type_channel)
-                weight_channel = objects_channel.objects.get(name=name)
-                calculation_weight = Decimal(weight_channel.weight) * length / 1000
-                rounded_weight = calculation_weight.quantize(Decimal('1.0'))
-
-                return JsonResponse({'weight': rounded_weight,
-                                     'type': type_channel,
-                                     'values': {'height': weight_channel.height,
-                                                'width': weight_channel.width,
-                                                'thickness': weight_channel.thickness,
-                                                'thickness_t': weight_channel.thickness_t,
-                                                }
-                                     },
-                                    status=200
-                                    )
+            return JsonResponse({'weight': rounded_weight,
+                                 'type': type_channel,
+                                 'values': {'height': weight_channel.height,
+                                            'width': weight_channel.width,
+                                            'thickness': weight_channel.thickness,
+                                            'thickness_t': weight_channel.thickness_t,
+                                            }
+                                 },
+                                status=200
+                                )
 
         return render(request, self.template_name, context={'form': self.form_class})
 
 
 def get_form_values_channel(request):
+    """Выдает из БД имена швеллеров для заполнения поля формы "name"
+    на основе заполненного поля "type" (AJAX)"""
     type_channel = request.GET.get('type')
     objects_channel = load_class_db(type_channel)
     channel_name_option = list(objects_channel.objects.values_list('name', flat=True))
@@ -246,7 +254,7 @@ def get_form_values_channel(request):
     return JsonResponse({'channel_name_option': channel_name_option}, status=200)
 
 
-class BeamView(View):
-    # template_name = 'calculator_weight/beam.html'
-    # form_class = BeamForm
-    pass
+class BeamView(ChannelView):
+    """Двутавры"""
+    template_name = 'calculator_weight/beam.html'
+    form_class = BeamForm

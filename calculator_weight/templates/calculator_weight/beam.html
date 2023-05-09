@@ -1,10 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'calculator_weight/all_calculator_weight.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
 
-</body>
-</html>
+{% block title %}Масса швеллера{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $('#id_type').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'type': $("#id_type option:selected").val()}, // получаем данные формы
+                url: "{% url 'get_values_beam' %}",
+                success: function (response) {
+                    $('#id_name').empty()
+                    $('#id_name').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите тип'
+                    }));
+                    for (let i = 0; i < response.channel_name_option.length; i++) {
+                        $('#id_name').append($('<option>', {
+                            value: response.channel_name_option[i],
+                            text: response.channel_name_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+        $('#id_form').submit(function (event) {
+            // предотвращение действий по умолчанию
+            event.preventDefault();
+            var data = $(this).serialize();
+            $.ajax({
+                type: "GET",
+                url: "{% url 'beam' %}",
+                data: data,
+                success: function (response) {
+                    let res_el = document.getElementById("id_calc_result");
+                    res_el.innerHTML = `<p><strong>Масса ${response.weight} кг</strong></p>` // масса швеллера
+                    let image = document.getElementById("id_image");
+                    if (response.type === 'ChannelTypeY') {
+                        image.setAttribute("src", "{% static 'images/calculator_weight/channel_y.png' %}")
+                    } else {
+                        image.setAttribute("src", "{% static 'images/calculator_weight/channel_p.png' %}")
+                    }
+                    $("#id_height").text(response.values["height"]);
+                    $("#id_width").text(response.values["width"]);
+                    $("#id_thickness").text(response.values["thickness"]);
+                    $("#id_thickness_t").text(response.values["thickness_t"]);
+                }
+            });
+        });
+
+    </script>
+{% endblock %}
+
+
+{% block calculator_main %}
+
+        <div class="col-md-4 col-xl-2 mx-auto" style="position: relative; font-size: 0.929rem">
+            <img id="id_image" src="{% static 'images/calculator_weight/channel_y.png' %}">
+            <span id="id_height"
+                  style="position: absolute; left:-16px; width: 40px; top:79px; text-align: center">h</span>
+            <span id="id_width"
+                  style="position: absolute; left:67px; width: 30px; bottom:5px; text-align: center">b</span>
+            <span id="id_thickness"
+                  style="position: absolute; left:80px; width: 30px; top:71px; text-align: center">s</span>
+            <span id="id_thickness_t"
+                  style="position: absolute; left:114px; width: 30px; bottom:65px">t</span>
+        </div>
+
+
+    <form class="col-md-5 col-xl-3 mx-auto" id="id_form" method="GET">
+        <div class="my-4">
+            {{ form | crispy }}
+        </div>
+        <p id="id_calc_result">Выберите значения</p>
+        <button class="btn btn-success my-3 d-grid mx-auto" type="submit">Рассчитать массу</button>
+    </form>
+
+
+{% endblock %}
+
