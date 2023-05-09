@@ -20,6 +20,8 @@ urlpatterns = [
     path('profile-pipe/', ProfilePipeView.as_view(), name='profile_pipe'),
     # Расчет массы швеллера
     path('channel/', ChannelView.as_view(), name='channel'),
+    # Получение из БД имеющихся швеллеров для заполнения поля формы "name"
+    path('channel/get-values-channel/', get_form_values_channel, name='get_values_channel'),
     # Расчет массы двутавра
     path('beam/', BeamView.as_view(), name='beam'),
 ]

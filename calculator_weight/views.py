@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from .forms import *
-from .models import * 
+from .models import *
 import math
 from decimal import Decimal
 
@@ -213,27 +213,37 @@ class ChannelView(View):
 
         if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
             form = self.form_class(request.GET)
-            type = request.GET.get('type')
-            name = request.GET.get('name')
-
-            if type and not name:
-                objects_channel = load_class_db(type)
-                channel_name_option = list(objects_channel.objects.values_list('name', flat=True))
-                return JsonResponse({'channel_name_option': channel_name_option}, status=200)
 
             if form.is_valid():
-                type = form.cleaned_data['type']
+                type_channel = form.cleaned_data['type']
                 name = form.cleaned_data['name']
                 length = form.cleaned_data['length']
 
-                objects_channel = load_class_db(type)
-                weight_channel = objects_channel.objects.filter(name=name).values_list('weight', flat=True)
-                calculation_weight = Decimal(weight_channel[0]) * length / 1000
-                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+                objects_channel = load_class_db(type_channel)
+                weight_channel = objects_channel.objects.get(name=name)
+                calculation_weight = Decimal(weight_channel.weight) * length / 1000
+                rounded_weight = calculation_weight.quantize(Decimal('1.0'))
 
-                return JsonResponse({'weight': rounded_weight}, status=200)
+                return JsonResponse({'weight': rounded_weight,
+                                     'type': type_channel,
+                                     'values': {'height': weight_channel.height,
+                                                'width': weight_channel.width,
+                                                'thickness': weight_channel.thickness,
+                                                'thickness_t': weight_channel.thickness_t,
+                                                }
+                                     },
+                                    status=200
+                                    )
 
         return render(request, self.template_name, context={'form': self.form_class})
+
+
+def get_form_values_channel(request):
+    type_channel = request.GET.get('type')
+    objects_channel = load_class_db(type_channel)
+    channel_name_option = list(objects_channel.objects.values_list('name', flat=True))
+
+    return JsonResponse({'channel_name_option': channel_name_option}, status=200)
 
 
 class BeamView(View):
