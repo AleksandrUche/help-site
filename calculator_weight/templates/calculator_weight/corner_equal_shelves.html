@@ -29,10 +29,10 @@
 {% endblock %}
 
 {% block calculator_main %}
-    <img src="{% static 'images/calculator_weight/corner.png' %}" class="mx-auto d-block align-middle"
+    <img class="mx-auto d-block align-middle" src="{% static 'images/calculator_weight/corner.png' %}"
          alt="Уголок равнополочный">
-    <form id="form" method="GET">
-        <div class="mt-5">
+    <form class="col-md-5 col-xl-3 mx-auto" id="form" method="GET">
+        <div class="my-4">
             {{ form | crispy }}
         </div>
         <p id="calc_result">Введите значения в миллиметрах</p>
