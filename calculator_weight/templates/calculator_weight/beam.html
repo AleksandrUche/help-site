@@ -40,13 +40,9 @@
                 data: data,
                 success: function (response) {
                     let res_el = document.getElementById("id_calc_result");
-                    res_el.innerHTML = `<p><strong>Масса ${response.weight} кг</strong></p>` // масса швеллера
+                    res_el.innerHTML = `<p><strong>Масса ${response.weight} кг</strong></p>` // масса двутавра
                     let image = document.getElementById("id_image");
-                    if (response.type === 'ChannelTypeY') {
-                        image.setAttribute("src", "{% static 'images/calculator_weight/channel_y.png' %}")
-                    } else {
-                        image.setAttribute("src", "{% static 'images/calculator_weight/channel_p.png' %}")
-                    }
+                    image.setAttribute("src", "{% static 'images/calculator_weight/i_beam.png' %}")
                     $("#id_height").text(response.values["height"]);
                     $("#id_width").text(response.values["width"]);
                     $("#id_thickness").text(response.values["thickness"]);
@@ -62,15 +58,15 @@
 {% block calculator_main %}
 
         <div class="col-md-4 col-xl-2 mx-auto" style="position: relative; font-size: 0.929rem">
-            <img id="id_image" src="{% static 'images/calculator_weight/channel_y.png' %}">
+            <img id="id_image" src="{% static 'images/calculator_weight/i_beam.png' %}">
             <span id="id_height"
-                  style="position: absolute; left:-16px; width: 40px; top:79px; text-align: center">h</span>
+                  style="position: absolute; left:-27px; width: 40px; top:60px; text-align: center">h</span>
             <span id="id_width"
-                  style="position: absolute; left:67px; width: 30px; bottom:5px; text-align: center">b</span>
+                  style="position: absolute; left:83px; width: 30px; bottom:5px; text-align: center">b</span>
             <span id="id_thickness"
-                  style="position: absolute; left:80px; width: 30px; top:71px; text-align: center">s</span>
+                  style="position: absolute; left:130px; width: 30px; top:53px; text-align: center">s</span>
             <span id="id_thickness_t"
-                  style="position: absolute; left:114px; width: 30px; bottom:65px">t</span>
+                  style="position: absolute; left:200px; width: 30px; bottom:30px; text-align: center">t</span>
         </div>
 
 
