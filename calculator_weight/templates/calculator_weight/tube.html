@@ -4,6 +4,20 @@
 
 {% block title %}Масса трубы{% endblock %}
 
+{% block calculator_main %}
+    <h5 class="text-center mb-3">Труба</h5>
+    <img src="{% static 'images/calculator_weight/tube.png' %}" class="mx-auto d-block align-middle"
+         alt="Труба">
+    <form class="col-md-5 col-xl-3 mx-auto" id="form" method="GET">
+        <div class="my-4">
+            {{ form | crispy }}
+        </div>
+        <p id="calc_result">Введите значения в миллиметрах</p>
+        <button class="btn btn-success my-3 d-grid mx-auto" type="submit">Рассчитать массу</button>
+    </form>
+
+{% endblock %}
+
 {% block javascripts %}
 
     <script>
@@ -25,18 +39,5 @@
         });
 
     </script>
-
-{% endblock %}
-
-{% block calculator_main %}
-    <img src="{% static 'images/calculator_weight/tube.png' %}" class="mx-auto d-block align-middle"
-         alt="Труба">
-    <form class="col-md-5 col-xl-3 mx-auto" id="form" method="GET">
-        <div class="my-4">
-            {{ form | crispy }}
-        </div>
-        <p id="calc_result">Введите значения в миллиметрах</p>
-        <button class="btn btn-success my-3 d-grid mx-auto" type="submit">Рассчитать массу</button>
-    </form>
 
 {% endblock %}

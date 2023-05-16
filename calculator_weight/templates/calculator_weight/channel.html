@@ -4,6 +4,31 @@
 
 {% block title %}Масса швеллера{% endblock %}
 
+{% block calculator_main %}
+    <h5 class="text-center mb-3">Швеллер</h5>
+    <div class="col-md-4 col-xl-2 mx-auto" style="position: relative; font-size: 0.929rem">
+        <img id="id_image" src="{% static 'images/calculator_weight/channel_y.png' %}">
+        <span id="id_height"
+              style="position: absolute; left:-16px; width: 40px; top:79px; text-align: center">h</span>
+        <span id="id_width"
+              style="position: absolute; left:67px; width: 30px; bottom:5px; text-align: center">b</span>
+        <span id="id_thickness"
+              style="position: absolute; left:80px; width: 30px; top:71px; text-align: center">s</span>
+        <span id="id_thickness_t"
+              style="position: absolute; left:114px; width: 30px; bottom:65px">t</span>
+    </div>
+
+
+    <form class="col-md-5 col-xl-3 mx-auto" id="id_form" method="GET">
+        <div class="my-4">
+            {{ form | crispy }}
+        </div>
+        <p id="id_calc_result">Выберите значения</p>
+        <button class="btn btn-success my-3 d-grid mx-auto" type="submit">Рассчитать массу</button>
+    </form>
+
+{% endblock %}
+
 {% block javascripts %}
 
     <script>
@@ -57,31 +82,3 @@
 
     </script>
 {% endblock %}
-
-
-{% block calculator_main %}
-
-        <div class="col-md-4 col-xl-2 mx-auto" style="position: relative; font-size: 0.929rem">
-            <img id="id_image" src="{% static 'images/calculator_weight/channel_y.png' %}">
-            <span id="id_height"
-                  style="position: absolute; left:-16px; width: 40px; top:79px; text-align: center">h</span>
-            <span id="id_width"
-                  style="position: absolute; left:67px; width: 30px; bottom:5px; text-align: center">b</span>
-            <span id="id_thickness"
-                  style="position: absolute; left:80px; width: 30px; top:71px; text-align: center">s</span>
-            <span id="id_thickness_t"
-                  style="position: absolute; left:114px; width: 30px; bottom:65px">t</span>
-        </div>
-
-
-    <form class="col-md-5 col-xl-3 mx-auto" id="id_form" method="GET">
-        <div class="my-4">
-            {{ form | crispy }}
-        </div>
-        <p id="id_calc_result">Выберите значения</p>
-        <button class="btn btn-success my-3 d-grid mx-auto" type="submit">Рассчитать массу</button>
-    </form>
-
-
-{% endblock %}
-
