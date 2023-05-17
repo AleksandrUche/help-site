@@ -441,6 +441,64 @@ class Atk261813FlangeDrawing(models.Model):
         verbose_name_plural = 'АТК 26-18-13-96 чертежи исполнений'
 
 
+"""
+Начало описания моделей для ГОСТ 28759.3-2022 Фланцы сосудов 
+"""
+
+
+class Gost28759FlangeValues(models.Model):
+    dn_passage = models.IntegerField(verbose_name='DN')
+    pn = models.FloatField(verbose_name='PN')
+    d1 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D1')
+    d2 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D2')
+    d3 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D3')
+    d4 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D4')
+    a_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='a')
+    d5 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D5')
+    a1_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='a1')
+    s = models.CharField(blank=True, null=True, max_length=6, verbose_name='S0')
+    d6 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D6')
+    d7 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D7')
+    b_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='b')
+    h = models.CharField(blank=True, null=True, max_length=6, verbose_name='H')
+    d_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='d')
+    pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
+    quantity_pin = models.CharField(max_length=6, verbose_name='Количество шпилек')
+
+    def __str__(self):
+        return self.dn_passage
+
+    class Meta:
+        verbose_name = 'размеры фланцев'
+        verbose_name_plural = 'ГОСТ 28759.3-2022 размеры фланцев'
+
+
+class Gost28759FlangeMass(models.Model):
+    dn_passage = models.CharField(max_length=6, verbose_name='DN')
+    pn = models.CharField(max_length=6, verbose_name='PN')
+    exec_1 = models.FloatField(verbose_name='PN 1')
+    exec_2 = models.FloatField(verbose_name='PN 2')
+    exec_3 = models.FloatField(verbose_name='PN 3')
+    exec_4 = models.FloatField(verbose_name='PN 4')
+    exec_5 = models.FloatField(verbose_name='PN 5')
+    exec_6 = models.FloatField(verbose_name='PN 6')
+    exec_7 = models.FloatField(verbose_name='PN 7')
+    exec_8 = models.FloatField(verbose_name='PN 8')
+
+
+# Чертежи фланцев
+class Gost28759FlangeDrawing(models.Model):
+    execution_fl = models.CharField(max_length=6, verbose_name='Исполнение фланца')
+    execution_drawing = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Чертеж')
+
+    def __str__(self):
+        return self.execution_fl
+
+    class Meta:
+        verbose_name = 'чертежи фланца'
+        verbose_name_plural = 'ГОСТ 28759.3-2022 чертежи исполнений'
+
+
 '''
 Начало описания моделей для днищ ГОСТ 6533-78
 '''
