@@ -2,98 +2,28 @@
 {% load static %}
 {% load filters %}
 {% load verbose_names %}
+{% load crispy_forms_tags %}
 
 {% block title %}ГОСТ 33259-2015{% endblock %}
-
-{% block javascripts %}
-
-    <script>
-        $('#id_type_fl').change(function () {
-            $.ajax({
-                type: "GET",
-                data: {'type_fl': this.value}, // получаем данные формы
-                url: "{% url 'gost33259' %}",
-                success: function (response) {
-                    $('#id_dn_passage').empty()
-                    $('#id_dn_passage').append($('<option>', {
-                        value: 'None',
-                        text: 'Выберите DN'
-                    }));
-                    for (let i = 0; i < response.dn_passage_option.length; i++) {
-                        $('#id_dn_passage').append($('<option>', {
-                            value: response.dn_passage_option[i],
-                            text: response.dn_passage_option[i]
-                        }));
-                    }
-
-                }
-            });
-
-        });
-
-        $('#id_dn_passage').change(function () {
-            $.ajax({
-                type: "GET",
-                data: {'dn_passage': this.value, 'type_fl': $("#id_type_fl option:selected").val()},
-                url: "{% url 'gost33259' %}",
-
-                success: function (response) {
-                    $('#id_pn').empty()
-                    $('#id_pn').append($('<option>', {
-                        value: 'None',
-                        text: 'Выберите PN'
-                    }));
-                    for (let i = 0; i < response.pn_option.length; i++) {
-                        $('#id_pn').append($('<option>', {
-                            value: response.pn_option[i],
-                            text: response.pn_option[i]
-                        }));
-                    }
-
-                }
-            });
-
-        });
-
-    </script>
-
-{% endblock %}
 
 {% block documents_main %}
 
     <form class="row g-3" action="{% url 'gost33259' %}" method="POST">
         {% csrf_token %}
         <div class="col-xxl-3 col-lg-6">
-            <label>{{ form.type_fl.label }}</label>
-            <select name="{{ form.type_fl.name }}" id="id_type_fl" class="form-select"
-                    aria-label="Default select example">
-                {% for value, text in form.type_fl.field.choices %}
-                    <option value="{{ value }}">{{ text }}</option>
-                {% endfor %}
-            </select>
+            {{ form.type_fl | as_crispy_field }}
         </div>
         <div class="col-xxl-3 col-lg-6">
-            <label>{{ form.surface.label }}</label>
-            <select name="{{ form.surface.name }}" id="id_surface" class="form-select"
-                    aria-label="Default select example">'Выберите поверхность'
-                <option value="None">Выберите поверхность</option>
-                {% for value, text in form.surface.field.choices %}
-                    <option value="{{ value }}">{{ text }}</option>
-                {% endfor %}
-                <div class="form-error">{{ form.surface.errors }}</div>
-            </select>
+            {{ form.surface | as_crispy_field }}
         </div>
         <div class="col-xxl-3 col-lg-6">
-            <label>{{ form.dn_passage.label }}</label>
-            <select name="{{ form.dn_passage.name }}" id="id_dn_passage" class="form-select"
-                    aria-label="Default select example">
-            </select>
+            {{ form.dn_passage | as_crispy_field }}
         </div>
         <div class="col-xxl-3 col-lg-6">
-            <label>{{ form.pn.label }}</label>
-            <select name="{{ form.pn.name }}" id="id_pn" class="form-select"
-                    aria-label="Default select example">
-            </select>
+            {{ form.pn | as_crispy_field }}
+        </div>
+        <div class="col-xxl-3 col-lg-6">
+            {{ form.row | as_crispy_field }}
         </div>
         <div class="col-12 gy-3">
             <input type="submit" value="Найти" class="btn btn-primary">
@@ -174,7 +104,7 @@
         {% if mass_flange %}
             <p class="fw-bold">Масса фланца: {{ mass_flange }} кг</p>
         {% else %}
-            <p class="fw-bold">В ГОСТ не указана масса на такое давление</p>
+            <p class="fw-bold">Масса не указана</p>
         {% endif %}
 
     {% else %}
@@ -231,4 +161,58 @@
             </div>
         </div>
     {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $('#id_type_fl').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'type_fl': this.value}, // получаем данные формы
+                url: "{% url 'gost33259' %}",
+                success: function (response) {
+                    $('#id_dn_passage').empty()
+                    $('#id_dn_passage').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите DN'
+                    }));
+                    for (let i = 0; i < response.dn_passage_option.length; i++) {
+                        $('#id_dn_passage').append($('<option>', {
+                            value: response.dn_passage_option[i],
+                            text: response.dn_passage_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+        $('#id_dn_passage').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'dn_passage': this.value, 'type_fl': $("#id_type_fl option:selected").val()},
+                url: "{% url 'gost33259' %}",
+
+                success: function (response) {
+                    $('#id_pn').empty()
+                    $('#id_pn').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите PN'
+                    }));
+                    for (let i = 0; i < response.pn_option.length; i++) {
+                        $('#id_pn').append($('<option>', {
+                            value: response.pn_option[i],
+                            text: response.pn_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+    </script>
+
 {% endblock %}
