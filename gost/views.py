@@ -26,8 +26,6 @@ class Gost33259View(View):
     form_class = Gost33259Form
 
     def get(self, request):
-        form = self.form_class
-
         if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
             type_fl = request.GET.get('type_fl')
             dn_passage = request.GET.get('dn_passage')
@@ -42,16 +40,26 @@ class Gost33259View(View):
                 pn_option = list(objects_types_fl.objects.filter(dn_passage=dn_passage).values_list('pn', flat=True))
                 return JsonResponse({'pn_option': pn_option}, status=200)
 
-        return render(request, self.template_name, context={'form': form})
+        return render(request, self.template_name, context={'form': self.form_class})
 
     def post(self, request):
         form = self.form_class(request.POST)
+        # Значения которые нужно вывести при выборе ряда 1 и ряда 2 (уплотнительная поверхность)
         values_surface_fl = {
-            'B': ['h_lower', 'd2'],
-            'C': ['h1_lower', 'd3', 'd4'],
-            'D': ['h_lower', 'h2_lower', 'd2', 'd6', 'd5'],
-            'E': ['h1_lower', 'd4'],
-            'F': ['h_lower', 'h2_lower', 'd2', 'd6'],
+            1: {
+                'B': ['h_lower', 'd2'],
+                'C': ['h1_lower', 'd3_row_one', 'd4_row_one'],
+                'D': ['h_lower', 'h2_lower', 'd2', 'd6_row_one', 'd5_row_one'],
+                'E': ['h1_lower', 'd4_row_one'],
+                'F': ['h_lower', 'h2_lower', 'd2', 'd6_row_one'],
+            },
+            2: {
+                'B': ['h_lower', 'd2'],
+                'C': ['h1_lower', 'd3_row_two', 'd4_row_two'],
+                'D': ['h_lower', 'h2_lower', 'd2', 'd6_row_two', 'd5_row_two'],
+                'E': ['h1_lower', 'd4_row_two'],
+                'F': ['h_lower', 'h2_lower', 'd2', 'd6_row_two'],
+            }
         }
 
         if form.is_valid():
@@ -59,6 +67,7 @@ class Gost33259View(View):
             surface_fl = form.cleaned_data['surface']
             dn_passage = form.cleaned_data['dn_passage']
             pn = form.cleaned_data['pn']
+            row = form.cleaned_data['row']
 
             objects_types_fl = load_class_db(f'Gost33259Type{type_fl}')
 
@@ -66,15 +75,30 @@ class Gost33259View(View):
             drawing_flange_surface = Gost33259SurfaceDrawing.objects.filter(surface_fl=surface_fl)
             flange_data = objects_types_fl.objects.filter(dn_passage=dn_passage, pn=pn)
             surface_data = Gost33259SurfaceValues.objects.filter(dn_passage=dn_passage, pn=pn)
-            if pn != '250':
-                if pn == '2,5':
+            if pn != '250':  # в ГОСТ есть давление 250, но массы на них нет
+                if pn == '2.5':
                     pn = '2'
                 mass_flange = Gost33259Mass.objects.filter(dn_passage=dn_passage,
                                                            type_fl=type_fl).values_list(f'pn_{pn}', flat=True).get()
             else:
                 mass_flange = None
             # необходимые поля из БД для отображения в шаблоне
-            fields_surface = values_surface_fl[surface_fl]
+            fields_surface = values_surface_fl[row][surface_fl]
+
+            # Gost33259Type01  ['dn_passage', 'pn', 'dv_lower_row_one', 'dv_lower_row_two', 'b_lower_row_one', 'b_lower_row_two',
+            # 'c1_lower', 'd_row_one', 'd_row_two', 'd1', 'd_lower_row_one', 'd_lower_row_two', 'n_lower_row_one',
+            # 'n_lower_row_two', 'pin_row_one', 'pin_row_two']
+
+            # Gost33259Type02['dn_passage', 'pn', 'd0_row_one', 'd0_row_two', 'd2', 'dv_lower_row_one', 'dv_lower_row_two',
+            #  'b_lower_row_one', 'b_lower_row_two', 'b1_lower_row_one', 'b1_lower_row_two', 'c_lower_row_one',
+            #  'c_lower_row_two', 'c1_lower', 'd_row_one', 'd_row_two', 'd1', 'd_lower_row_one', 'd_lower_row_two',
+            #  'n_lower_row_one', 'n_lower_row_two', 'pin_row_one', 'pin_row_two']
+
+            # Gost33259Type11
+            # ['dn_passage', 'pn', 'dm_row_one', 'dm_row_two', 'dn_row_one', 'dn_row_two', 'd1_lower_row_one',
+            #  'd1_lower_row_two', 'b_lower_row_one', 'b_lower_row_two', 'h_row_one', 'h_row_two', 'h1', 'd_row_one',
+            #  'd_row_two', 'd1', 'd_lower_row_one', 'd_lower_row_two', 'n_lower_row_one', 'n_lower_row_two',
+            #  'pin_row_one', 'pin_row_two']
             fields_type = [field.name for field in objects_types_fl._meta.get_fields()][1:]
 
             return render(request, self.template_name,
