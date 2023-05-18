@@ -78,7 +78,7 @@ class Gost33259AvailabilityFlange(models.Model):
 # Размеры фланцев ГОСТ 33259-2015 ТИП 01
 class Gost33259Type01(models.Model):
     dn_passage = models.IntegerField(verbose_name='DN')
-    pn = models.CharField(max_length=6, verbose_name='PN')
+    pn = models.FloatField(verbose_name='PN')
     dv_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='dв ряд 1')
     dv_lower_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='dв ряд 2')
     b_lower_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='b ряд 1')
@@ -106,7 +106,7 @@ class Gost33259Type01(models.Model):
 # Размеры фланцев ГОСТ 33259-2015 ТИП 02
 class Gost33259Type02(models.Model):
     dn_passage = models.IntegerField(verbose_name='DN')
-    pn = models.CharField(max_length=6, verbose_name='PN')
+    pn = models.FloatField(verbose_name='PN')
     d0_row_one = models.CharField(blank=True, null=True, max_length=15, verbose_name='D0 ряд 1')
     d0_row_two = models.CharField(blank=True, null=True, max_length=15, verbose_name='D0 ряд 2')
     d2 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D2')
@@ -141,7 +141,7 @@ class Gost33259Type02(models.Model):
 # Размеры фланцев ГОСТ 33259-2015 ТИП 11
 class Gost33259Type11(models.Model):
     dn_passage = models.IntegerField(verbose_name='DN')
-    pn = models.CharField(max_length=6, verbose_name='PN')
+    pn = models.FloatField(verbose_name='PN')
     dm_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='Dm ряд 1')
     dm_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='Dm ряд 2')
     dn_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='Dn ряд 1')
@@ -175,7 +175,7 @@ class Gost33259Type11(models.Model):
 # уплотнительные поверхности для всех фланцев ГОСТ 33259-2015
 class Gost33259SurfaceValues(models.Model):
     dn_passage = models.CharField(max_length=6, verbose_name='DN')
-    pn = models.CharField(max_length=6, verbose_name='PN')
+    pn = models.FloatField(verbose_name='PN')
     d2 = models.CharField(blank=True, null=True, max_length=6, verbose_name='D2')
     d3_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='D3 ряд 1')
     d3_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='D3 ряд 2')
