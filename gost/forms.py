@@ -9,7 +9,6 @@ class Gost33259Form(forms.Form):  # Фланцы ГОСТ 33259-2017
         ('11', 'Тип 11'),
     )
     SURFACE = (
-        # (None, 'Выберите поверхность'),
         ('B', 'B'),
         ('C', 'C'),
         ('D', 'D'),
@@ -18,8 +17,9 @@ class Gost33259Form(forms.Form):  # Фланцы ГОСТ 33259-2017
     )
     type_fl = forms.ChoiceField(label='Тип фланца', choices=TYPE_FL)
     surface = forms.ChoiceField(label='Уплотнительная поверхность', choices=SURFACE)
-    dn_passage = forms.CharField(label='DN')
-    pn = forms.CharField(label='PN')
+    dn_passage = forms.CharField(label='DN', widget=forms.Select)
+    pn = forms.CharField(label='PN', widget=forms.Select)
+    row = forms.ChoiceField(label='Ряд', choices=[(1, 'Ряд 1'), (2, 'Ряд 2')])
 
 
 class Atk261813Form(forms.Form):  # Фланцы АТК
@@ -73,4 +73,3 @@ class Atk26185FlangeStoppersForm(forms.Form):  # Заглушки АТК (ПОВ
     execution = forms.ChoiceField(label='Исполнение', choices=EXECUTION)
     pn = forms.CharField(label='Py, МПа')
     dn_passage = forms.CharField(label='Dy')
-
