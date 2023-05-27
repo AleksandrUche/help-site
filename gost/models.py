@@ -485,6 +485,13 @@ class Gost28759FlangeMass(models.Model):
     exec_7 = models.FloatField(verbose_name='PN 7')
     exec_8 = models.FloatField(verbose_name='PN 8')
 
+    def __str__(self):
+        return self.dn_passage
+
+    class Meta:
+        verbose_name = 'массы фланцев'
+        verbose_name_plural = 'ГОСТ 28759.3-2022 Массы'
+
 
 # Чертежи фланцев
 class Gost28759FlangeDrawing(models.Model):
