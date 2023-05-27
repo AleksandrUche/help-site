@@ -7,7 +7,9 @@
 {% block title %}ГОСТ 33259-2015{% endblock %}
 
 {% block documents_main %}
-
+    <h5 class="text-center mb-3">ГОСТ 33259-2015</h5>
+    <h5 class="text-center mb-3">Фланцы арматуры, соединительных частей и трубопроводов на номинальное
+        давление до PN 250</h5>
     <form class="row g-3" action="{% url 'gost33259' %}" method="POST">
         {% csrf_token %}
         <div class="col-xxl-3 col-lg-6">
@@ -110,18 +112,18 @@
     {% else %}
         <div class="row align-items-center mt-3">
             <div class="col">
-                <img src="{% static 'images/gosts/gost33259-2015/01.png' %}" class="mx-auto d-block align-middle"
+                <img src="{% static 'images/gost/gost_33259_flange/01.png' %}" class="mx-auto d-block align-middle"
                      alt="Тип 01">
                 <p class="text-center">Тип фланца 01</p>
             </div>
             <div class="col">
-                <img src="{% static 'images/gosts/gost33259-2015/02.png' %}"
+                <img src="{% static 'images/gost/gost_33259_flange/02.png' %}"
                      class="mx-auto d-block align-middle"
                      alt="Тип 02">
                 <p class="text-center">Тип фланца 02</p>
             </div>
             <div class="col">
-                <img src="{% static 'images/gosts/gost33259-2015/11.png' %}"
+                <img src="{% static 'images/gost/gost_33259_flange/11.png' %}"
                      class="mx-auto d-block align-middle"
                      alt="Тип 11">
                 <p class="text-center">Тип фланца 11</p>
@@ -130,31 +132,31 @@
 
         <div class="row align-items-center">
             <div class="col">
-                <img src="{% static 'images/gosts/gost33259-2015/surface/execution_B.jpg' %}"
+                <img src="{% static 'images/gost/gost_33259_flange/surface/execution_B.jpg' %}"
                      class="mx-auto d-block align-middle"
                      alt="Уплотнительная поверхность B">
                 <p class="text-center">Уплотнительная поверхность B</p>
             </div>
             <div class="col">
-                <img src="{% static 'images/gosts/gost33259-2015/surface/execution_C.jpg' %}"
+                <img src="{% static 'images/gost/gost_33259_flange/surface/execution_C.jpg' %}"
                      class="mx-auto d-block align-middle"
                      alt="Уплотнительная поверхность C">
                 <p class="text-center">Уплотнительная поверхность C</p>
             </div>
             <div class="col">
-                <img src="{% static 'images/gosts/gost33259-2015/surface/execution_D.jpg' %}"
+                <img src="{% static 'images/gost/gost_33259_flange/surface/execution_D.jpg' %}"
                      class="mx-auto d-block align-middle"
                      alt="Уплотнительная поверхность D">
                 <p class="text-center">Уплотнительная поверхность D</p>
             </div>
             <div class="col">
-                <img src="{% static 'images/gosts/gost33259-2015/surface/execution_E.jpg' %}"
+                <img src="{% static 'images/gost/gost_33259_flange/surface/execution_E.jpg' %}"
                      class="mx-auto d-block align-middle"
                      alt="Уплотнительная поверхность E">
                 <p class="text-center">Уплотнительная поверхность E</p>
             </div>
             <div class="col">
-                <img src="{% static 'images/gosts/gost33259-2015/surface/execution_F.jpg' %}"
+                <img src="{% static 'images/gost/gost_33259_flange/surface/execution_F.jpg' %}"
                      class="mx-auto d-block align-middle"
                      alt="Уплотнительная поверхность F">
                 <p class="text-center">Уплотнительная поверхность F</p>
