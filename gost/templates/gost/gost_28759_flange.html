@@ -1,0 +1,162 @@
+{% extends 'gost/documents.html' %}
+{% load static %}
+{% load filters %}
+{% load verbose_names %}
+{% load crispy_forms_tags %}
+
+{% block title %}ГОСТ 28759.3-2022{% endblock %}
+
+{% block documents_main %}
+    <h5 class="text-center mb-3">ГОСТ 28759.3-2022</h5>
+    <form class="row g-3" action="{% url 'gost28759' %}" method="POST">
+        {% csrf_token %}
+        <div class="col-xxl-3 col-lg-6">
+            {{ form.execution | as_crispy_field }}
+        </div>
+        <div class="col-xxl-3 col-lg-6">
+            {{ form.dn_passage | as_crispy_field }}
+        </div>
+        <div class="col-xxl-3 col-lg-6">
+            {{ form.pn | as_crispy_field }}
+        </div>
+        <div class="col-12 gy-3">
+            <input type="submit" value="Найти" class="btn btn-primary">
+        </div>
+    </form>
+
+
+    {% if flange_data %}
+
+        <div class="row align-items-center">
+            {% for ft in drawing_flange_execution %}
+                <div>
+                    <img class="mx-auto d-block align-middle"
+                         src="{{ ft.execution_drawing.url }}"
+                         width="550">
+                    <p class="text-center">Исполнение фланца "{{ form.execution.value }}"</p>
+                </div>
+            {% endfor %}
+        </div>
+
+
+        <div class="row">
+
+            <table class="table table-bordered caption-top">
+                <caption>Размеры фланца</caption>
+                <thead>
+                <tr>
+                    {% for value in flange_data %}
+                        {% for field in fields_exec %}
+                            <th class="text-center" scope="col">{{ value|get_verbose_field_name:field }}</th>
+                        {% endfor %}
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for value in flange_data %}
+                        {% for field in fields_exec %}
+                            <td class="text-center">{{ value|getattribute:field }}</td>
+                        {% endfor %}
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        {% if mass_flange %}
+            <p class="fw-bold">Масса фланца: {{ mass_flange }} кг</p>
+        {% else %}
+            <p class="fw-bold">Масса не указана</p>
+        {% endif %}
+
+    {% else %}
+        <h5 class="text-center mb-3">Исполнения</h5>
+        <div class="row align-items-center mt-3">
+            <div class="col">
+                <img src="{% static 'images/gost/gost_28759_flange/exec_1.png' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Исполнение 1"
+                     width="300">
+                <p class="text-center">Исполнение 1</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gost/gost_28759_flange/exec_2.png' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Исполнение 2"
+                     width="300">
+                <p class="text-center">Исполнение 2</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gost/gost_28759_flange/exec_3.png' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Исполнение 3"
+                     width="300">
+                <p class="text-center">Исполнение 3</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gost/gost_28759_flange/exec_4.png' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Исполнение 4"
+                     width="300">
+                <p class="text-center">Исполнение 4</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gost/gost_28759_flange/exec_5.png' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Исполнение 5"
+                     width="300">
+                <p class="text-center">Исполнение 5</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gost/gost_28759_flange/exec_6.png' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Исполнение 6"
+                     width="300">
+                <p class="text-center">Исполнение 6</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gost/gost_28759_flange/exec_7.png' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Исполнение 7"
+                     width="300">
+                <p class="text-center">Исполнение 7</p>
+            </div>
+            <div class="col">
+                <img src="{% static 'images/gost/gost_28759_flange/exec_8.png' %}"
+                     class="mx-auto d-block align-middle"
+                     alt="Исполнение 8"
+                     width="300">
+                <p class="text-center">Исполнение 8</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('#id_dn_passage').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'dn_passage': this.value},
+                url: "{% url 'gost28759' %}",
+
+                success: function (response) {
+                    $('#id_pn').empty()
+                    $('#id_pn').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите PN'
+                    }));
+                    for (let i = 0; i < response.pn_option.length; i++) {
+                        $('#id_pn').append($('<option>', {
+                            value: response.pn_option[i],
+                            text: response.pn_option[i]
+                        }));
+                    }
+                }
+            });
+        });
+
+    </script>
+{% endblock %}
