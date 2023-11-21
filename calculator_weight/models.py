@@ -17,11 +17,11 @@ class SteelChannelBase(models.Model):
     thickness_t = models.FloatField(verbose_name='t')
     weight = models.FloatField(verbose_name='Масса, 1м/кг')
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return self.name
 
 
 class ChannelTypeY(SteelChannelBase):
