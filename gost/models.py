@@ -66,13 +66,13 @@ class Gost33259AvailabilityFlange(models.Model):
     dn_3600 = models.BooleanField(default=False)
     dn_4000 = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.pn
-
     class Meta:
         verbose_name = 'наличе фланцев ГОСТ 33259-2015'
         verbose_name_plural = 'ГОСТ 33259-2015 наличе фланцев '
         ordering = ['id']
+
+    def __str__(self):
+        return self.pn
 
 
 # Размеры фланцев ГОСТ 33259-2015 ТИП 01
@@ -94,13 +94,13 @@ class Gost33259Type01(models.Model):
     pin_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 1')
     pin_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 2')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'тип 01 ГОСТ 33259-2015'
         verbose_name_plural = 'ГОСТ 33259-2015 тип 01'
         ordering = ['id']
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # Размеры фланцев ГОСТ 33259-2015 ТИП 02
@@ -129,13 +129,13 @@ class Gost33259Type02(models.Model):
     pin_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 1')
     pin_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 2')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'тип 02 ГОСТ 33259-2015'
         verbose_name_plural = 'ГОСТ 33259-2015 тип 02 '
         ordering = ['id']
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # Размеры фланцев ГОСТ 33259-2015 ТИП 11
@@ -163,13 +163,13 @@ class Gost33259Type11(models.Model):
     pin_row_one = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 1')
     pin_row_two = models.CharField(blank=True, null=True, max_length=6, verbose_name='Диаметр шпилек ряд 2')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'тип 11 ГОСТ 33259-2015'
         verbose_name_plural = 'ГОСТ 33259-2015 тип 11'
         ordering = ['id']
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # уплотнительные поверхности для всех фланцев ГОСТ 33259-2015
@@ -198,13 +198,13 @@ class Gost33259SurfaceValues(models.Model):
     h4_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='h4')
     h5_lower = models.CharField(blank=True, null=True, max_length=6, verbose_name='h5')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'уплотнительные поверхности'
         verbose_name_plural = 'ГОСТ 33259-2015 уплотнительная поверхность '
         ordering = ['id']
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # Масса фланцев ГОСТ 33259
@@ -223,13 +223,13 @@ class Gost33259Mass(models.Model):
     pn_160 = models.CharField(max_length=6, verbose_name='PN 160')
     pn_200 = models.CharField(max_length=6, verbose_name='PN 200')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'массы'
         verbose_name_plural = 'ГОСТ 33259-2015 массы'
         ordering = ['id']
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # чертеж типа фланца
@@ -237,12 +237,12 @@ class Gost33259TypeDrawing(models.Model):
     type_fl = models.CharField(max_length=6, verbose_name='Тип фланца')
     flange_drawing = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Чертеж')
 
-    def __str__(self):
-        return self.type_fl
-
     class Meta:
         verbose_name = 'типы'
-        verbose_name_plural = 'ГОСТ 33259-2015 чертежи типов фланцев '
+        verbose_name_plural = 'ГОСТ 33259-2015 чертежи типов фланцев'
+
+    def __str__(self):
+        return self.type_fl
 
 
 # чертеж уплотнительной поверхности фланца
@@ -250,12 +250,12 @@ class Gost33259SurfaceDrawing(models.Model):
     surface_fl = models.CharField(max_length=6, verbose_name='Уплотнительная поверхность')
     surface_drawing = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Чертеж')
 
-    def __str__(self):
-        return self.surface_fl
-
     class Meta:
         verbose_name = 'уплотнительные поверхности'
         verbose_name_plural = 'ГОСТ 33259-2015 чертежи уплотнительной поверхность'
+
+    def __str__(self):
+        return self.surface_fl
 
 
 '''
@@ -281,12 +281,12 @@ class Atk261813FlangeExec1(models.Model):
     m = models.CharField(max_length=6, verbose_name='Масса')
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 1'
         verbose_name_plural = 'АТК 26-18-13-96 исполнение 1'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # Исполнение 2
@@ -307,12 +307,12 @@ class Atk261813FlangeExec2(models.Model):
     m = models.CharField(max_length=6, verbose_name='Масса')
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 2'
         verbose_name_plural = 'АТК 26-18-13-96 исполнение 2'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # Исполнение 3
@@ -335,12 +335,12 @@ class Atk261813FlangeExec3(models.Model):
     m = models.CharField(max_length=6, verbose_name='Масса')
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 3'
         verbose_name_plural = 'АТК 26-18-13-96 исполнение 3'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # Исполнение 4
@@ -362,12 +362,12 @@ class Atk261813FlangeExec4(models.Model):
     m = models.CharField(max_length=6, verbose_name='Масса')
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 4'
         verbose_name_plural = 'АТК 26-18-13-96 исполнение 4'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # Исполнение 5
@@ -391,12 +391,12 @@ class Atk261813FlangeExec5(models.Model):
     m = models.CharField(max_length=6, verbose_name='Масса')
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 5'
         verbose_name_plural = 'АТК 26-18-13-96 исполнение 5'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # Исполнение 6
@@ -421,24 +421,24 @@ class Atk261813FlangeExec6(models.Model):
     m = models.CharField(max_length=6, verbose_name='Масса')
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 6'
         verbose_name_plural = 'АТК 26-18-13-96 исполнение 6'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 class Atk261813FlangeDrawing(models.Model):
     execution_fl = models.CharField(max_length=6, verbose_name='Исполнение фланца')
     execution_drawing = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Чертеж')
 
-    def __str__(self):
-        return self.execution_fl
-
     class Meta:
         verbose_name = 'чертежи фланца'
         verbose_name_plural = 'АТК 26-18-13-96 чертежи исполнений'
+
+    def __str__(self):
+        return self.execution_fl
 
 
 """
@@ -465,12 +465,12 @@ class Gost28759FlangeValues(models.Model):
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
     quantity_pin = models.CharField(max_length=6, verbose_name='Количество шпилек')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'размеры фланцев'
         verbose_name_plural = 'ГОСТ 28759.3-2022 размеры фланцев'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 class Gost28759FlangeMass(models.Model):
@@ -485,12 +485,12 @@ class Gost28759FlangeMass(models.Model):
     exec_7 = models.FloatField(verbose_name='PN 7')
     exec_8 = models.FloatField(verbose_name='PN 8')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'массы фланцев'
         verbose_name_plural = 'ГОСТ 28759.3-2022 Массы'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 # Чертежи фланцев
@@ -498,12 +498,12 @@ class Gost28759FlangeDrawing(models.Model):
     execution_fl = models.CharField(max_length=6, verbose_name='Исполнение фланца')
     execution_drawing = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Чертеж')
 
-    def __str__(self):
-        return self.execution_fl
-
     class Meta:
         verbose_name = 'чертежи фланца'
         verbose_name_plural = 'ГОСТ 28759.3-2022 чертежи исполнений'
+
+    def __str__(self):
+        return self.execution_fl
 
 
 '''
@@ -519,24 +519,24 @@ class Gost6533Bottoms(models.Model):
     s_lower = models.CharField(max_length=6, verbose_name='s')
     m = models.CharField(max_length=10, verbose_name='Масса')
 
-    def __str__(self):
-        return self.d
-
     class Meta:
         verbose_name = 'размеры днищ'
         verbose_name_plural = 'Днища ГОСТ 6533-78 размеры'
+
+    def __str__(self):
+        return self.d
 
 
 class Gost6533BottomsDrawing(models.Model):
     execution = models.CharField(max_length=6, verbose_name='Чертеж')
     execution_drawing = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Чертеж днища')
 
-    def __str__(self):
-        return self.execution
-
     class Meta:
         verbose_name = 'чертежи днищ'
         verbose_name_plural = 'Днища ГОСТ 6533-78 чертежи исполнений'
+
+    def __str__(self):
+        return self.execution
 
 
 '''Начало описания моделей для заглушек АТК 24.200.02-90'''
@@ -557,12 +557,12 @@ class Atk24200FlangeStoppersExec1(models.Model):
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
     m = models.CharField(max_length=6, verbose_name='Масса')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 1'
         verbose_name_plural = 'АТК 24.200.02-90 исполнение 1'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 class Atk24200FlangeStoppersExec2(models.Model):
@@ -580,12 +580,12 @@ class Atk24200FlangeStoppersExec2(models.Model):
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
     m = models.CharField(max_length=6, verbose_name='Масса')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 2'
         verbose_name_plural = 'АТК 24.200.02-90 исполнение 2'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 class Atk24200FlangeStoppersExec3(models.Model):
@@ -604,12 +604,12 @@ class Atk24200FlangeStoppersExec3(models.Model):
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
     m = models.CharField(max_length=6, verbose_name='Масса')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 3'
         verbose_name_plural = 'АТК 24.200.02-90 исполнение 3'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 class Atk24200FlangeStoppersExec4(models.Model):
@@ -631,12 +631,12 @@ class Atk24200FlangeStoppersExec4(models.Model):
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
     m = models.CharField(max_length=6, verbose_name='Масса')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 4'
         verbose_name_plural = 'АТК 24.200.02-90 исполнение 4'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 class Atk24200FlangeStoppersExec5(models.Model):
@@ -655,24 +655,24 @@ class Atk24200FlangeStoppersExec5(models.Model):
     pin = models.CharField(max_length=6, verbose_name='Диаметр шпилек')
     m = models.CharField(max_length=6, verbose_name='Масса')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 5'
         verbose_name_plural = 'АТК 24.200.02-90 исполнение 5'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 class Atk24200FlangeStoppersDrawing(models.Model):
     execution_fl = models.CharField(max_length=6, verbose_name='Исполнение заглушки')
     execution_drawing = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Чертеж')
 
-    def __str__(self):
-        return self.execution_fl
-
     class Meta:
         verbose_name = 'чертежи заглушек'
         verbose_name_plural = 'АТК 24.200.02-90 заглушки чертежи'
+
+    def __str__(self):
+        return self.execution_fl
 
 
 '''Начало описания моделей для заглушек ПОВОРОТНЫХ АТК 26-18-5-93'''
@@ -692,12 +692,12 @@ class Atk2618FlangeStoppersExec1(models.Model):
     d_lower = models.CharField(max_length=6, verbose_name='d')
     m = models.CharField(max_length=6, verbose_name='Масса')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 1'
         verbose_name_plural = 'АТК 26-18-5-93 исполнение 1'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 class Atk2618FlangeStoppersExec2(models.Model):
@@ -718,12 +718,12 @@ class Atk2618FlangeStoppersExec2(models.Model):
     d_lower = models.CharField(max_length=6, verbose_name='d')
     m = models.CharField(max_length=6, verbose_name='Масса')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 2'
         verbose_name_plural = 'АТК 26-18-5-93 исполнение 2'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 class Atk2618FlangeStoppersExec3(models.Model):
@@ -744,21 +744,21 @@ class Atk2618FlangeStoppersExec3(models.Model):
     d_lower = models.CharField(max_length=6, verbose_name='d')
     m = models.CharField(max_length=6, verbose_name='Масса')
 
-    def __str__(self):
-        return self.dn_passage
-
     class Meta:
         verbose_name = 'исполнение 3'
         verbose_name_plural = 'АТК 26-18-5-93 исполнение 3'
+
+    def __str__(self):
+        return self.dn_passage
 
 
 class Atk2618FlangeStoppersDrawing(models.Model):
     execution_fl = models.CharField(max_length=6, verbose_name='Исполнение заглушки поворотной')
     execution_drawing = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name='Чертеж')
 
-    def __str__(self):
-        return self.execution_fl
-
     class Meta:
         verbose_name = 'чертежи заглушек поворотных'
         verbose_name_plural = 'АТК 26-18-5-93 заглушки поворотные чертежи'
+
+    def __str__(self):
+        return self.execution_fl
