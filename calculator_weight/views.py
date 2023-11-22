@@ -1,20 +1,32 @@
-import importlib
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
-from .forms import *
-from .models import *
-import math
-from decimal import Decimal
+
+from .forms import (CornerEqualShelvesWeightForm,
+                    CornerDifferentShelvesWeightForm,
+                    CircleForm,
+                    SquareForm,
+                    SheetForm,
+                    TubeForm,
+                    ProfileTubeForm,
+                    ChannelForm,
+                    BeamForm)
+
+from .services import load_class_db
+from .calculators_services import (calculate_mass_corner_equal,
+                                   calculate_mass_corner_different,
+                                   calculate_mass_circle,
+                                   calculate_mass_square,
+                                   calculate_mass_sheet,
+                                   calculate_mass_tube,
+                                   calculate_mass_profile_pipe,
+                                   calculate_mass_channel)
 
 
 class CalculatorWeighView(TemplateView):
     """Страница отображения всех калькуляторов"""
     template_name = 'calculator_weight/all_calculator_weight.html'
     extra_context = {'title': 'Металлопрокат'}
-
-
-"""Металлопрокат (массы)"""
 
 
 class CornerEqualShelvesView(View):
@@ -33,12 +45,9 @@ class CornerEqualShelvesView(View):
                 length = form.cleaned_data['length']
                 material = form.cleaned_data['material']
 
-                # Расчет массы уголка
-                calculation_weight = \
-                    (side / 1000 * 2 - thickness / 1000) * thickness / 1000 * length / 1000 * Decimal(material)
-                # Округление до двух знаков после запятой
-                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
-                return JsonResponse({'weight': rounded_weight}, status=200)
+                calculated_mass = calculate_mass_corner_equal(side, thickness, length, material)
+
+                return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -60,14 +69,9 @@ class CornerDifferentShelvesView(View):
                 length = form.cleaned_data['length']
                 material = form.cleaned_data['material']
 
-                # Расчет массы уголка не равнополочного
-                calculation_weight = \
-                    (side / 1000 + side_b / 1000 - thickness / 1000) * thickness / 1000 * length / 1000 * Decimal(
-                        material)
-                # Округление до двух знаков после запятой
-                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+                calculated_mass = calculate_mass_corner_different(side, side_b, thickness, length, material)
 
-                return JsonResponse({'weight': rounded_weight}, status=200)
+                return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -87,12 +91,9 @@ class CircleView(View):
                 length = form.cleaned_data['length']
                 material = form.cleaned_data['material']
 
-                # Расчет массы круга
-                calculation_weight = Decimal(math.pi) / 4 * Decimal(material) * (diameter / 1000) ** 2 * length / 1000
-                # Округление до двух знаков после запятой
-                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+                calculated_mass = calculate_mass_circle(diameter, length, material)
 
-                return JsonResponse({'weight': rounded_weight}, status=200)
+                return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -112,12 +113,9 @@ class SquareView(View):
                 length = form.cleaned_data['length']
                 material = form.cleaned_data['material']
 
-                # Расчет массы квадрата
-                calculation_weight = Decimal(material) * (size / 1000) ** 2 * length / 1000
-                # Округление до двух знаков после запятой
-                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+                calculated_mass = calculate_mass_square(size, length, material)
 
-                return JsonResponse({'weight': rounded_weight}, status=200)
+                return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -138,12 +136,9 @@ class SheetView(View):
                 thickness = form.cleaned_data['thickness']
                 material = form.cleaned_data['material']
 
-                # Расчет массы листа
-                calculation_weight = side_a / 1000 * side_b / 1000 * thickness / 1000 * Decimal(material)
-                # Округление до двух знаков после запятой
-                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+                calculated_mass = calculate_mass_sheet(side_a, side_b, thickness, material)
 
-                return JsonResponse({'weight': rounded_weight}, status=200)
+                return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -163,16 +158,10 @@ class TubeView(View):
                 thickness = form.cleaned_data['thickness']
                 length = form.cleaned_data['length']
                 material = form.cleaned_data['material']
-                # Внутренний диаметр
-                inner_diameter = diameter / 1000 - 2 * thickness / 1000
-                # Площадь
-                square = Decimal(math.pi) / 4 * ((diameter / 1000) ** 2 - inner_diameter ** 2)
-                # Расчет массы листа
-                calculation_weight = square * length / 1000 * Decimal(material)
-                # Округление до двух знаков после запятой
-                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
 
-                return JsonResponse({'weight': rounded_weight}, status=200)
+                calculated_mass = calculate_mass_tube(diameter, thickness, length, material)
+
+                return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -194,22 +183,11 @@ class ProfilePipeView(View):
                 length = form.cleaned_data['length']
                 material = form.cleaned_data['material']
 
-                # Расчет массы профильной трубы
-                calculation_weight = (Decimal(material) / Decimal('7850') * Decimal('0.0157') * thickness * (
-                        side_a + side_b - Decimal('2.86') * thickness)) * length / 1000
-                # Округление до двух знаков после запятой
-                rounded_weight = calculation_weight.quantize(Decimal('1.000'))
+                calculated_mass = calculate_mass_profile_pipe(side_a, side_b, thickness, length, material)
 
-                return JsonResponse({'weight': rounded_weight}, status=200)
+                return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
-
-
-def load_class_db(name_cls):
-    module_path = 'calculator_weight.models'
-    module = importlib.import_module(module_path)
-    my_class = getattr(module, name_cls)
-    return my_class
 
 
 class ChannelView(View):
@@ -227,10 +205,10 @@ class ChannelView(View):
 
             objects_channel = load_class_db(type_channel)
             weight_channel = objects_channel.objects.get(name=name)
-            calculation_weight = Decimal(weight_channel.weight) * length / 1000
-            rounded_weight = calculation_weight.quantize(Decimal('1.0'))
 
-            return JsonResponse({'weight': rounded_weight,
+            calculated_mass = calculate_mass_channel(weight_channel.weight, length)
+
+            return JsonResponse({'weight': calculated_mass,
                                  'type': type_channel,
                                  'values': {'height': weight_channel.height,
                                             'width': weight_channel.width,
@@ -242,16 +220,6 @@ class ChannelView(View):
                                 )
 
         return render(request, self.template_name, context={'form': self.form_class})
-
-
-def get_form_values_channel(request):
-    """Выдает из БД имена швеллеров для заполнения поля формы "name"
-    на основе заполненного поля "type" (AJAX)"""
-    type_channel = request.GET.get('type')
-    objects_channel = load_class_db(type_channel)
-    channel_name_option = list(objects_channel.objects.values_list('name', flat=True))
-
-    return JsonResponse({'channel_name_option': channel_name_option}, status=200)
 
 
 class BeamView(ChannelView):
