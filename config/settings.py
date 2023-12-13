@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Сторонние пакеты
     'crispy_forms',
-    "crispy_bootstrap4",
+    'crispy_bootstrap4',
     'debug_toolbar',
     # Регистрация / Авторизация
     'allauth',
@@ -82,6 +82,10 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+FIXTURE_DIRS = [
+    'fixtures',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
