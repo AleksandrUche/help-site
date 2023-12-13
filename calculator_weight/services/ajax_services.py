@@ -1,12 +1,6 @@
-import importlib
 from django.http import JsonResponse
 
-
-def load_class_db(name_cls):
-    module_path = 'calculator_weight.models'
-    module = importlib.import_module(module_path)
-    my_class = getattr(module, name_cls)
-    return my_class
+from calculator_weight.services.services import load_class_db
 
 
 def get_form_values_channel(request):
