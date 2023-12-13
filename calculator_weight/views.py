@@ -2,28 +2,32 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, View
 
-from .forms import (CornerEqualShelvesWeightForm,
-                    CornerDifferentShelvesWeightForm,
-                    CircleForm,
-                    SquareForm,
-                    SheetForm,
-                    TubeForm,
-                    ProfileTubeForm,
-                    ChannelForm,
-                    BeamForm)
+from .forms import (
+    CornerEqualShelvesWeightForm,
+    CornerDifferentShelvesWeightForm,
+    CircleForm,
+    SquareForm,
+    SheetForm,
+    TubeForm,
+    ProfileTubeForm,
+    ChannelForm,
+    BeamForm,
+)
 
-from .services import load_class_db
-from .calculators_services import (calculate_mass_corner_equal,
-                                   calculate_mass_corner_different,
-                                   calculate_mass_circle,
-                                   calculate_mass_square,
-                                   calculate_mass_sheet,
-                                   calculate_mass_tube,
-                                   calculate_mass_profile_pipe,
-                                   calculate_mass_channel)
+from calculator_weight.services.services import load_class_db
+from calculator_weight.services.calculators_services import (
+    calculate_mass_corner_equal,
+    calculate_mass_corner_different,
+    calculate_mass_circle,
+    calculate_mass_square,
+    calculate_mass_sheet,
+    calculate_mass_tube,
+    calculate_mass_profile_pipe,
+    calculate_mass_channel,
+)
 
 
-class CalculatorWeighView(TemplateView):
+class CalculatorWeightView(TemplateView):
     """Страница отображения всех калькуляторов"""
     template_name = 'calculator_weight/all_calculator_weight.html'
     extra_context = {'title': 'Металлопрокат'}
@@ -35,19 +39,17 @@ class CornerEqualShelvesView(View):
     form_class = CornerEqualShelvesWeightForm
 
     def get(self, request):
+        form = self.form_class(request.GET)
 
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.form_class(request.GET)
+        if form.is_valid():
+            side = form.cleaned_data['side']
+            thickness = form.cleaned_data['thickness']
+            length = form.cleaned_data['length']
+            material = form.cleaned_data['material']
 
-            if form.is_valid():
-                side = form.cleaned_data['side']
-                thickness = form.cleaned_data['thickness']
-                length = form.cleaned_data['length']
-                material = form.cleaned_data['material']
+            calculated_mass = calculate_mass_corner_equal(side, thickness, length, material)
 
-                calculated_mass = calculate_mass_corner_equal(side, thickness, length, material)
-
-                return JsonResponse({'weight': calculated_mass}, status=200)
+            return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -58,20 +60,18 @@ class CornerDifferentShelvesView(View):
     form_class = CornerDifferentShelvesWeightForm
 
     def get(self, request):
+        form = self.form_class(request.GET)
 
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.form_class(request.GET)
+        if form.is_valid():
+            side = form.cleaned_data['side']
+            side_b = form.cleaned_data['side_b']
+            thickness = form.cleaned_data['thickness']
+            length = form.cleaned_data['length']
+            material = form.cleaned_data['material']
 
-            if form.is_valid():
-                side = form.cleaned_data['side']
-                side_b = form.cleaned_data['side_b']
-                thickness = form.cleaned_data['thickness']
-                length = form.cleaned_data['length']
-                material = form.cleaned_data['material']
+            calculated_mass = calculate_mass_corner_different(side, side_b, thickness, length, material)
 
-                calculated_mass = calculate_mass_corner_different(side, side_b, thickness, length, material)
-
-                return JsonResponse({'weight': calculated_mass}, status=200)
+            return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -82,18 +82,16 @@ class CircleView(View):
     form_class = CircleForm
 
     def get(self, request):
+        form = self.form_class(request.GET)
 
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.form_class(request.GET)
+        if form.is_valid():
+            diameter = form.cleaned_data['diameter']
+            length = form.cleaned_data['length']
+            material = form.cleaned_data['material']
 
-            if form.is_valid():
-                diameter = form.cleaned_data['diameter']
-                length = form.cleaned_data['length']
-                material = form.cleaned_data['material']
+            calculated_mass = calculate_mass_circle(diameter, length, material)
 
-                calculated_mass = calculate_mass_circle(diameter, length, material)
-
-                return JsonResponse({'weight': calculated_mass}, status=200)
+            return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -104,18 +102,16 @@ class SquareView(View):
     form_class = SquareForm
 
     def get(self, request):
+        form = self.form_class(request.GET)
 
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.form_class(request.GET)
+        if form.is_valid():
+            size = form.cleaned_data['size']
+            length = form.cleaned_data['length']
+            material = form.cleaned_data['material']
 
-            if form.is_valid():
-                size = form.cleaned_data['size']
-                length = form.cleaned_data['length']
-                material = form.cleaned_data['material']
+            calculated_mass = calculate_mass_square(size, length, material)
 
-                calculated_mass = calculate_mass_square(size, length, material)
-
-                return JsonResponse({'weight': calculated_mass}, status=200)
+            return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -126,19 +122,17 @@ class SheetView(View):
     form_class = SheetForm
 
     def get(self, request):
+        form = self.form_class(request.GET)
 
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.form_class(request.GET)
+        if form.is_valid():
+            side_a = form.cleaned_data['side_a']
+            side_b = form.cleaned_data['side_b']
+            thickness = form.cleaned_data['thickness']
+            material = form.cleaned_data['material']
 
-            if form.is_valid():
-                side_a = form.cleaned_data['side_a']
-                side_b = form.cleaned_data['side_b']
-                thickness = form.cleaned_data['thickness']
-                material = form.cleaned_data['material']
+            calculated_mass = calculate_mass_sheet(side_a, side_b, thickness, material)
 
-                calculated_mass = calculate_mass_sheet(side_a, side_b, thickness, material)
-
-                return JsonResponse({'weight': calculated_mass}, status=200)
+            return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -149,19 +143,17 @@ class TubeView(View):
     form_class = TubeForm
 
     def get(self, request):
+        form = self.form_class(request.GET)
 
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.form_class(request.GET)
+        if form.is_valid():
+            diameter = form.cleaned_data['diameter']
+            thickness = form.cleaned_data['thickness']
+            length = form.cleaned_data['length']
+            material = form.cleaned_data['material']
 
-            if form.is_valid():
-                diameter = form.cleaned_data['diameter']
-                thickness = form.cleaned_data['thickness']
-                length = form.cleaned_data['length']
-                material = form.cleaned_data['material']
+            calculated_mass = calculate_mass_tube(diameter, thickness, length, material)
 
-                calculated_mass = calculate_mass_tube(diameter, thickness, length, material)
-
-                return JsonResponse({'weight': calculated_mass}, status=200)
+            return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -172,20 +164,18 @@ class ProfilePipeView(View):
     form_class = ProfileTubeForm
 
     def get(self, request):
+        form = self.form_class(request.GET)
 
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.form_class(request.GET)
+        if form.is_valid():
+            side_a = form.cleaned_data['side_a']
+            side_b = form.cleaned_data['side_b']
+            thickness = form.cleaned_data['thickness']
+            length = form.cleaned_data['length']
+            material = form.cleaned_data['material']
 
-            if form.is_valid():
-                side_a = form.cleaned_data['side_a']
-                side_b = form.cleaned_data['side_b']
-                thickness = form.cleaned_data['thickness']
-                length = form.cleaned_data['length']
-                material = form.cleaned_data['material']
+            calculated_mass = calculate_mass_profile_pipe(side_a, side_b, thickness, length, material)
 
-                calculated_mass = calculate_mass_profile_pipe(side_a, side_b, thickness, length, material)
-
-                return JsonResponse({'weight': calculated_mass}, status=200)
+            return JsonResponse({'weight': calculated_mass}, status=200)
 
         return render(request, self.template_name, context={'form': self.form_class})
 
@@ -208,16 +198,19 @@ class ChannelView(View):
 
             calculated_mass = calculate_mass_channel(weight_channel.weight, length)
 
-            return JsonResponse({'weight': calculated_mass,
-                                 'type': type_channel,
-                                 'values': {'height': weight_channel.height,
-                                            'width': weight_channel.width,
-                                            'thickness': weight_channel.thickness,
-                                            'thickness_t': weight_channel.thickness_t,
-                                            }
-                                 },
-                                status=200
-                                )
+            return JsonResponse(
+                {
+                    'weight': calculated_mass,
+                    'type': type_channel,
+                    'values': {
+                        'height': weight_channel.height,
+                        'width': weight_channel.width,
+                        'thickness': weight_channel.thickness,
+                        'thickness_t': weight_channel.thickness_t,
+                    }
+                },
+                status=200
+            )
 
         return render(request, self.template_name, context={'form': self.form_class})
 
