@@ -8,8 +8,8 @@
 
 {% block documents_main %}
     <h5 class="text-center mb-3">ГОСТ 33259-2015</h5>
-    <h5 class="text-center mb-3">Фланцы арматуры, соединительных частей и трубопроводов на номинальное
-        давление до PN 250</h5>
+    <h5 class="text-center mb-3">"Фланцы арматуры, соединительных частей и трубопроводов на номинальное
+        давление до PN 250."</h5>
     <form class="row g-3" action="{% url 'gost33259' %}" method="POST">
         {% csrf_token %}
         <div class="col-xxl-3 col-lg-6">
@@ -39,14 +39,14 @@
             {% for ft in drawing_flange_type %}
                 <div class="col-xl-8 col-md-12">
                     <img class="mx-auto d-block align-middle" src="{{ ft.flange_drawing.url }}">
-                    <p class="text-center">Тип фланца "{{ form.type_fl.value }}"</p>
+                    <p class="text-center">Тип фланца: "{{ form_data.type_fl.value }}"</p>
                 </div>
             {% endfor %}
 
             {% for fs in drawing_flange_surface %}
                 <div class="col-xl-4 col-md-12">
                     <img class="mx-auto d-block align-middle" src="{{ fs.surface_drawing.url }}">
-                    <p class="text-center">Уплотнительная поверхность "{{ form.surface.value }}"</p>
+                    <p class="text-center">Уплотнительная поверхность: "{{ form_data.surface.value }}"</p>
                 </div>
             {% endfor %}
         </div>
@@ -55,7 +55,7 @@
         <div class="row">
             <div class="col-xl-8 col-md-12">
                 <table class="table table-bordered caption-top">
-                    <caption>Размеры фланца</caption>
+                    <caption>Размеры фланца (Ряд: {{ form_data.row.value }})</caption>
                     <thead>
                     <tr>
                         {% for value in flange_data %}
@@ -79,7 +79,7 @@
 
             <div class="col-xl-4 col-md-12">
                 <table class="table table-bordered caption-top">
-                    <caption>Размеры уплотнительной поверхности</caption>
+                    <caption>Размеры уплотнительной поверхности (Ряд: {{ form_data.row.value }})</caption>
                     <thead>
                     <tr>
                         {% for value in surface_data %}
@@ -172,7 +172,7 @@
             $.ajax({
                 type: "GET",
                 data: {'type_fl': this.value}, // получаем данные формы
-                url: "{% url 'gost33259' %}",
+                url: "{% url 'get_values_gost_33259' %}",
                 success: function (response) {
                     $('#id_dn_passage').empty()
                     $('#id_dn_passage').append($('<option>', {
@@ -195,7 +195,7 @@
             $.ajax({
                 type: "GET",
                 data: {'dn_passage': this.value, 'type_fl': $("#id_type_fl option:selected").val()},
-                url: "{% url 'gost33259' %}",
+                url: "{% url 'get_values_gost_33259' %}",
 
                 success: function (response) {
                     $('#id_pn').empty()
