@@ -5,61 +5,10 @@
 
 {% block title %}АТК 26-18-13-96{% endblock %}
 
-{% block javascripts %}
-
-    <script>
-        $('#id_execution').change(function () {
-            $.ajax({
-                type: "GET",
-                data: {'execution': this.value}, // получаем данные формы
-                url: "{% url 'atk261813' %}",
-                success: function (response) {
-                    $('#id_pn').empty()
-                    $('#id_pn').append($('<option>', {
-                        value: 'None',
-                        text: 'Выберите давление'
-                    }));
-                    for (let i = 0; i < response.pn_option.length; i++) {
-                        $('#id_pn').append($('<option>', {
-                            value: response.pn_option[i],
-                            text: response.pn_option[i]
-                        }));
-                    }
-
-                }
-            });
-
-        });
-
-        $('#id_pn').change(function () {
-            $.ajax({
-                type: "GET",
-                data: {'pn': this.value, 'execution': $("#id_execution option:selected").val()},
-                url: "{% url 'atk261813' %}",
-                success: function (response) {
-                    $('#id_dn_passage').empty()
-                    $('#id_dn_passage').append($('<option>', {
-                        value: 'None',
-                        text: 'Выберите условный проход'
-                    }));
-                    for (let i = 0; i < response.dn_passage_option.length; i++) {
-                        $('#id_dn_passage').append($('<option>', {
-                            value: response.dn_passage_option[i],
-                            text: response.dn_passage_option[i]
-                        }));
-                    }
-
-                }
-            });
-
-        });
-
-    </script>
-
-{% endblock %}
-
 {% block documents_main %}
-
+    <h5 class="text-center mb-3">АТК 26-18-13-96</h5>
+    <h5 class="text-center mb-3">"Фланцы арматурные соединительных частей и трубопроводов для коррозионных сред
+    на Ру от 0,6 до 16,0 МПа."</h5>
     <form class="row" action="{% url 'atk261813' %}" method="POST">
         {% csrf_token %}
         <div class="col-4">
@@ -94,7 +43,7 @@
             {% for ft in drawing_flange_execution %}
                 <div>
                     <img class="mx-auto d-block align-middle" src="{{ ft.execution_drawing.url }}">
-                    <p class="text-center">Исполнение фланца "{{ form.execution.value }}"</p>
+                    <p class="text-center">Исполнение фланца: "{{ form_data.execution.value }}"</p>
                 </div>
             {% endfor %}
         </div>
@@ -161,4 +110,57 @@
         </div>
 
     {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $('#id_execution').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'execution': this.value}, // получаем данные формы
+                url: "{% url 'get_values_atk_261813' %}",
+                success: function (response) {
+                    $('#id_pn').empty()
+                    $('#id_pn').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите давление'
+                    }));
+                    for (let i = 0; i < response.pn_option.length; i++) {
+                        $('#id_pn').append($('<option>', {
+                            value: response.pn_option[i],
+                            text: response.pn_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+        $('#id_pn').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'pn': this.value, 'execution': $("#id_execution option:selected").val()},
+                url: "{% url 'get_values_atk_261813' %}",
+                success: function (response) {
+                    $('#id_dn_passage').empty()
+                    $('#id_dn_passage').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите условный проход'
+                    }));
+                    for (let i = 0; i < response.dn_passage_option.length; i++) {
+                        $('#id_dn_passage').append($('<option>', {
+                            value: response.dn_passage_option[i],
+                            text: response.dn_passage_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+    </script>
+
 {% endblock %}

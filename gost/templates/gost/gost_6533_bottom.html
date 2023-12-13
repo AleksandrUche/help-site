@@ -5,62 +5,9 @@
 
 {% block title %}ГОСТ 6533-78{% endblock %}
 
-{% block javascripts %}
-
-    <script>
-        $('#id_drawing').change(function () {
-            $.ajax({
-                type: "GET",
-                data: {'drawing': this.value}, // получаем данные формы
-                url: "{% url 'gost6533' %}",
-                success: function (response) {
-                    $('#id_diameter').empty()
-                    $('#id_diameter').append($('<option>', {
-                        value: 'None',
-                        text: 'Выберите диаметр'
-                    }));
-                    for (let i = 0; i < response.diameter_option.length; i++) {
-                        $('#id_diameter').append($('<option>', {
-                            value: response.diameter_option[i],
-                            text: response.diameter_option[i]
-                        }));
-                    }
-
-                }
-            });
-
-        });
-
-        $('#id_diameter').change(function () {
-            $.ajax({
-                type: "GET",
-                data: {'diameter': this.value, 'drawing': $("#id_drawing option:selected").val()},
-                url: "{% url 'gost6533' %}",
-                success: function (response) {
-                    $('#id_thickness').empty()
-                    $('#id_thickness').append($('<option>', {
-                        value: 'None',
-                        text: 'Выберите толщину'
-                    }));
-                    for (let i = 0; i < response.thickness_option.length; i++) {
-                        $('#id_thickness').append($('<option>', {
-                            value: response.thickness_option[i],
-                            text: response.thickness_option[i]
-                        }));
-                    }
-
-                }
-            });
-
-        });
-
-    </script>
-
-{% endblock %}
-
-
 {% block documents_main %}
-
+    <h5 class="text-center mb-3">ГОСТ 6533-78</h5>
+    <h5 class="text-center mb-3">"Днища эллиптические отбортованные стальные для сосудов, аппаратов и котлов."</h5>
     <form class="row" action="{% url 'gost6533' %}" method="POST">
         {% csrf_token %}
         <div class="col-4">
@@ -94,7 +41,7 @@
             {% for ft in drawing_bottom %}
                 <div>
                     <img class="mx-auto d-block align-middle" src="{{ ft.execution_drawing.url }}">
-                    <p class="text-center">Чертеж "{{ form.drawing.value }}"</p>
+                    <p class="text-center">Чертеж "{{ form_data.drawing.value }}"</p>
                 </div>
             {% endfor %}
         </div>
@@ -157,5 +104,58 @@
             </div>
         </div>
     {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $('#id_drawing').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'drawing': this.value}, // получаем данные формы
+                url: "{% url 'get_values_gost_6533' %}",
+                success: function (response) {
+                    $('#id_diameter').empty()
+                    $('#id_diameter').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите диаметр'
+                    }));
+                    for (let i = 0; i < response.diameter_option.length; i++) {
+                        $('#id_diameter').append($('<option>', {
+                            value: response.diameter_option[i],
+                            text: response.diameter_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+        $('#id_diameter').change(function () {
+            $.ajax({
+                type: "GET",
+                data: {'diameter': this.value, 'drawing': $("#id_drawing option:selected").val()},
+                url: "{% url 'get_values_gost_6533' %}",
+                success: function (response) {
+                    $('#id_thickness').empty()
+                    $('#id_thickness').append($('<option>', {
+                        value: 'None',
+                        text: 'Выберите толщину'
+                    }));
+                    for (let i = 0; i < response.thickness_option.length; i++) {
+                        $('#id_thickness').append($('<option>', {
+                            value: response.thickness_option[i],
+                            text: response.thickness_option[i]
+                        }));
+                    }
+
+                }
+            });
+
+        });
+
+    </script>
 
 {% endblock %}
