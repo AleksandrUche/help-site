@@ -8,12 +8,12 @@ class TypeEquipment(models.Model):
     """Тип оборудования(аппарат горизонтальный/вертикальный и т.д.)"""
     name = models.CharField('Тип аппарата', max_length=30, help_text='горизонтальный/вертикальный')
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name = 'тип емкостного аппарата'
         verbose_name_plural = 'Тип оборудования'
+
+    def __str__(self):
+        return self.name
 
 
 class Material(models.Model):
@@ -45,16 +45,16 @@ class NameCapacitiveEquipment(models.Model):  # Основные данные о
     )  # Автор
     created_date = models.DateTimeField('Дата создания', default=timezone.now)  # дата добавления
 
-    def get_absolute_url(self):
-        return reverse('detail_name_calc_capac', kwargs={'pk': self.pk})
-
-    def __str__(self):
-        return self.calc_number
-
     class Meta:
         ordering = ['-created_date']
         verbose_name = 'обсчеты'
         verbose_name_plural = 'Обсчет (наименование)'
+
+    def __str__(self):
+        return self.calc_number
+
+    def get_absolute_url(self):
+        return reverse('detail_name_calc_capac', kwargs={'pk': self.pk})
 
 
 class Parameter(models.Model):
@@ -130,15 +130,15 @@ class Parameter(models.Model):
         verbose_name='Наличие поворотных заглушек',
     )
 
-    def get_absolute_url(self):
-        return reverse('detail_parameter_calc_capac', kwargs={'slug': self.pk})
+    class Meta:
+        verbose_name = 'параметры обсчета'
+        verbose_name_plural = 'Параметры обсчета'
 
     def __str__(self):
         return self.calculation_object
 
-    class Meta:
-        verbose_name = 'параметры обсчета'
-        verbose_name_plural = 'Параметры обсчета'
+    def get_absolute_url(self):
+        return reverse('detail_parameter_calc_capac', kwargs={'slug': self.pk})
 
 
 """_____МОДЕЛИ ДЛЯ ОБСЧЕТА МАСС_____"""
@@ -154,43 +154,49 @@ class Fitting(models.Model):  # ШТУЦЕРЫ
     def __str__(self):
         return self.name
 
-    class BasePipe(models.Model):
-        """Базовая модель для патрубков/втулок/обечаек"""
-        diameter = models.DecimalField('Диаметр', max_digits=8, decimal_places=3)  # Диаметр
-        thickness = models.DecimalField('Толщина', max_digits=8, decimal_places=3)  # Толщина
-        length = models.DecimalField('Длинна', max_digits=8, decimal_places=3)  # Длинна втулки
-        quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
-        calculation_object = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
-        material = models.ForeignKey(
-            Material,
-            on_delete=models.SET_DEFAULT,
-            null=True,
-            default='не указан',
-        )
 
-        def __str__(self):
-            return self.diameter, self.thickness
+class BasePipe(models.Model):
+    """Базовая модель для патрубков/втулок/обечаек"""
+    diameter = models.DecimalField('Диаметр', max_digits=8, decimal_places=3)  # Диаметр
+    thickness = models.DecimalField('Толщина', max_digits=8, decimal_places=3)  # Толщина
+    length = models.DecimalField('Длинна', max_digits=8, decimal_places=3)  # Длинна втулки
+    quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
+    calculation_object = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+    material = models.ForeignKey(
+        Material,
+        on_delete=models.SET_DEFAULT,
+        null=True,
+        default='не указан',
+    )
 
-        class Meta:
-            abstract = True
+    class Meta:
+        abstract = True
 
-    class Bushing(BasePipe):  # ВТУЛКИ
-        """Модель для втулок"""
+    def __str__(self):
+        return self.diameter, self.thickness
 
-    class BranchPipe(BasePipe):  # ПАТРУБКИ
-        """Модель для труб"""
 
-    class CaseDevice(BasePipe):  # КОРПУС аппарата
-        """Корпус аппарата"""
+class Bushing(BasePipe):  # ВТУЛКИ
+    """Модель для втулок"""
 
-    class Bottoms(models.Model):
-        """Днища, которые входят в обсчет"""
 
-        calculation = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+class BranchPipe(BasePipe):  # ПАТРУБКИ
+    """Модель для труб"""
 
-    class OtherProducts(models.Model):  # ПРОЧИЕ изделия
-        """Прочие изделия, например скобы для теплоизоляции и т.д"""
-        name = models.CharField('Наименование изделия', max_length=60)  # Наименование изделия
-        weight = models.DecimalField('Масса', max_digits=9, decimal_places=3)  # Масса
-        quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
-        calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+
+class CaseDevice(BasePipe):  # КОРПУС аппарата
+    """Корпус аппарата"""
+
+
+class Bottoms(models.Model):
+    """Днища, которые входят в обсчет"""
+
+    calculation = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
+
+
+class OtherProducts(models.Model):  # ПРОЧИЕ изделия
+    """Прочие изделия, например скобы для теплоизоляции и т.д"""
+    name = models.CharField('Наименование изделия', max_length=60)  # Наименование изделия
+    weight = models.DecimalField('Масса', max_digits=9, decimal_places=3)  # Масса
+    quantity = models.DecimalField('Количество', max_digits=6, decimal_places=3)  # Количество
+    calculation_id = models.ForeignKey(NameCapacitiveEquipment, on_delete=models.CASCADE)
