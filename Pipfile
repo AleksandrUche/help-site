@@ -13,6 +13,8 @@ tzdata = "==2022.6"
 django-debug-toolbar = "~=3.8.1"
 django-allauth = "*"
 crispy-bootstrap4 = "*"
+coverage = "*"
+django-environ = "*"
 
 [dev-packages]
 
