@@ -68,12 +68,7 @@ def calculate_mass_profile_pipe(side_a: Decimal,
     return round_the_number(calculation_weight)
 
 
-def calculate_mass_channel(mass_channel: str, length: Decimal) -> Decimal:
-    """Расчет массы швеллера по значениям из БД"""
-    calculation_weight = Decimal(mass_channel) * length / 1000
+def calculate_mass_of_reference_values(mass_channel: float, length: Decimal) -> Decimal:
+    """Расчет массы по значениям из БД (справочные значения)"""
+    calculation_weight = Decimal(mass_channel) * length
     return round_the_number(calculation_weight)
-
-
-def calculate_mass_beam():
-    """Расчет массы двутавра"""
-    pass
