@@ -79,7 +79,7 @@ class ChannelForm(forms.Form):
     """Форма для расчета массы швеллера"""
     type = forms.ChoiceField(label='Тип швеллера', choices=CHANNEL)
     name = forms.CharField(label='Номер швеллера', widget=forms.Select)
-    length = forms.DecimalField(label='Длина, мм', max_digits=10, decimal_places=1)
+    length = forms.DecimalField(label='Длина, метры', max_digits=10, decimal_places=1)
 
 
 # Поле выбора типа двутавра
@@ -90,7 +90,7 @@ BEAM = [
     ('BeamGost26020TypeSh', 'Широкополочный двутавр "Ш"'),
     ('BeamGost26020TypeK', 'Колонный двутавр "К"'),
     ('BeamGost26020TypeD', 'Двутавр дополнительной серии "Д"'),
-    ('BeamGost26020TypeS', 'Сварной двутавр "С"')
+    # ('BeamGost26020TypeS', 'Сварной двутавр "С"')  # ГОСТ не найден
 ]
 
 
@@ -98,4 +98,4 @@ class BeamForm(forms.Form):
     """Форма для расчета массы двутавра"""
     type = forms.ChoiceField(label='Тип двутавра', choices=BEAM)
     name = forms.CharField(label='Номер двутавра', widget=forms.Select)
-    length = forms.DecimalField(label='Длина, мм', max_digits=10, decimal_places=1)
+    length = forms.DecimalField(label='Длина, метры', max_digits=10, decimal_places=1)
