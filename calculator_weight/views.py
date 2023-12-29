@@ -23,7 +23,7 @@ from calculator_weight.services.calculators_services import (
     calculate_mass_sheet,
     calculate_mass_tube,
     calculate_mass_profile_pipe,
-    calculate_mass_channel,
+    calculate_mass_of_reference_values,
 )
 
 
@@ -196,7 +196,7 @@ class ChannelView(View):
             objects_channel = load_class_db(type_channel)
             weight_channel = objects_channel.objects.get(name=name)
 
-            calculated_mass = calculate_mass_channel(weight_channel.weight, length)
+            calculated_mass = calculate_mass_of_reference_values(weight_channel.weight, length)
 
             return JsonResponse(
                 {
