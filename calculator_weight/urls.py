@@ -31,7 +31,7 @@ ajax_urls = [
     # Получение из БД имеющихся швеллеров для заполнения поля формы "name"
     path('channel/get-values-channel/', get_form_values_channel, name='get_values_channel'),
     # Получение из БД имеющихся двутавров для заполнения поля формы "name"
-    # path('channel/get-values-i-beam/', get_form_values_channel, name='get_values_beam'),
+    path('channel/get-values-i-beam/', get_form_values_channel, name='get_values_beam'),
 ]
 
 urlpatterns.extend(ajax_urls)
