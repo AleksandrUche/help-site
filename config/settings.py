@@ -1,19 +1,22 @@
 import os
 from pathlib import Path
+import environ
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!s#05%rr&+)!j^2ii4_bnqt)g-)=km^^p650(ltib9-e3=ze6p'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 # Application definition
 
@@ -36,10 +39,9 @@ INSTALLED_APPS = [
     'gost',  # Приложение ГОСТов
     'home',  # Главная страница, обратная связь, о сайте
     'capacitive_equipment',  # Обсчеты емкостного оборудования
-    'calculator_weight',  # Узконаправленные калькуляторы
+    'calculator_weight',  # Калькуляторы
     # 'users',
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -120,7 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+# STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -139,10 +143,10 @@ LOGOUT_REDIRECT_URL = 'home'
 # Регистрация / Авторизация
 ACCOUNT_LOGOUT_REDIRECT = 'home'
 SITE_ID = 1
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
-)
+]
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Без галочки (запомнить меня)
 ACCOUNT_SESSION_REMEMBER = True
@@ -154,9 +158,9 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 # Письмо от
-DEFAULT_FROM_EMAIL = 'admin@helpsite.ru'
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 # Автоматический вход после сброса пароля
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
