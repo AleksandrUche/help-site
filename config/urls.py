@@ -6,11 +6,11 @@ from home.views import *
 from config import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('my-admin/', admin.site.urls),
     path('', include('home.urls')),
-    path('accounts/', include('allauth.urls')),
+    # path('accounts/', include('allauth.urls')),
     path('documents/', include('gost.urls')),
-    path('calc-capacitive-equipment/', include('capacitive_equipment.urls')),
+    # path('calc-capacitive-equipment/', include('capacitive_equipment.urls')),
     path('calculator_weight/', include('calculator_weight.urls'))
 ]
 
