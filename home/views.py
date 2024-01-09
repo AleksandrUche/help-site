@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 
 class HomeView(TemplateView):
     template_name = 'home/home.html'
-    extra_context = {'title': 'Главная страница'}
+    extra_context = {'title': 'engineer-easy'}
 
 
 def about(request):
