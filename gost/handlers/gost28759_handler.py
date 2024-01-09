@@ -16,6 +16,10 @@ class Gost28759Handler:
               'quantity_pin'],
         '6': ['dn_passage', 'pn', 'd1', 'd2', 'd5', 'd6', 'd7', 's', 'b_lower', 'h', 'd_lower', 'pin',
               'quantity_pin'],
+        '7': ['dn_passage', 'pn', 'd1', 'd2', 'd3', 'd4', 'd6', 'd7', 's', 'b_lower', 'h', 'a_lower', 'd_lower', 'pin',
+              'quantity_pin'],
+        '8': ['dn_passage', 'pn', 'd1', 'd2', 'd4', 'd5', 'd6', 'd7', 's', 'b_lower', 'h', 'a1_lower', 'd_lower', 'pin',
+              'quantity_pin'],
     }
 
     def __init__(self, request_data: Gost28759Request):
