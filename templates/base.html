@@ -1,17 +1,17 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="h-100">
 
 <head>
     <meta charset="UTF-8">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}"/>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
     {% block css %}
 
     {% endblock %}
-
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}"/>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.js"
             integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
@@ -24,74 +24,82 @@
     </title>
 </head>
 
-<body>
-
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #d2e3ff;">
-    <div class="container-fluid">
-        <a class="navbar-brand mb-0 h1">
-            <img src="{% static 'images/logo.svg' %}" alt="" width="35" class="d-inline-block align-text-top">
-            EngineerEasy
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'documents' %}">Стандарты</a>
-                </li>
-                {#                <li class="nav-item">#}
-                {#                    <a class="nav-link" href="{% url 'base_calc_capac' %}">Обсчет аппарата</a>#}
-                {#                </li>#}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Калькуляторы
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'corner_equal' %}">Металлопрокат</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">О сайте</a>
-                </li>
-                {#                <li class="nav-item">#}
-                {#                    <a class="nav-link" href="{% url 'contact' %}">Обратная связь</a>#}
-                {#                </li>#}
-            </ul>
-            <a href="https://t.me/uchvatov">
-                <button type="button" class="btn btn-outline-secondary">Обратная связь</button>
+<body class="d-flex flex-column h-100">
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #d2e3ff;">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'images/logo.svg' %}" alt="" width="35" class="d-inline-block align-text-top">
+                EngineerEasy
             </a>
-            {#            {% if user.is_authenticated %}#}
-            {#                <h6 class="text-capitalize mx-2">Привет {{ user.username }}!</h6>#}
-            {#                <a class="btn btn-primary" href="{% url 'account_logout' %}" role="button">Выйти</a>#}
-            {#            {% else %}#}
-            {#                <div class="text-end btn-group">#}
-            {#                    <a href="{% url 'account_login' %}" class="btn btn-primary">Войти</a>#}
-            {#                    <a href="{% url 'account_signup' %}" class="btn btn-primary">Регистрация</a>#}
-            {#                </div>#}
-            {#            {% endif %}#}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'documents' %}">Стандарты</a>
+                    </li>
+                    {#                <li class="nav-item">#}
+                    {#                    <a class="nav-link" href="{% url 'base_calc_capac' %}">Обсчет аппарата</a>#}
+                    {#                </li>#}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Калькуляторы
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'corner_equal' %}">Металлопрокат</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">О сайте</a>
+                    </li>
+                    {#                <li class="nav-item">#}
+                    {#                    <a class="nav-link" href="{% url 'contact' %}">Обратная связь</a>#}
+                    {#                </li>#}
+                </ul>
+                <a href="https://t.me/uchvatov">
+                    <button type="button" class="btn btn-outline-secondary">Обратная связь</button>
+                </a>
+                {#            {% if user.is_authenticated %}#}
+                {#                <h6 class="text-capitalize mx-2">Привет {{ user.username }}!</h6>#}
+                {#                <a class="btn btn-primary" href="{% url 'account_logout' %}" role="button">Выйти</a>#}
+                {#            {% else %}#}
+                {#                <div class="text-end btn-group">#}
+                {#                    <a href="{% url 'account_login' %}" class="btn btn-primary">Войти</a>#}
+                {#                    <a href="{% url 'account_signup' %}" class="btn btn-primary">Регистрация</a>#}
+                {#                </div>#}
+                {#            {% endif %}#}
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</header>
+
+<main>
+    {% block menu %}
+
+    {% endblock %}
+
+    {% block content %}
+
+    {% endblock %}
+</main>
 
 
-{% block menu %}
-
-{% endblock %}
-
-{% block content %}
-
-{% endblock %}
-
-
-<footer>
-    <div class="fixed-bottom my-3">
-        <h6 class="text-center">engineer-easy.ru by Учватов Александр</h6>
+<footer class="footer mt-auto py-1">
+    <div class="container">
+        <h6 class="text-center text-muted">
+            engineer-easy.ru by Учватов Александр
+            <a class="icon-link" href="https://t.me/uchvatov">
+                <img src="{% static 'images/icon-telegram-32.png' %}" alt="telegram_icon">
+            </a>
+        </h6>
     </div>
 </footer>
 
@@ -100,20 +108,30 @@
 {% endblock %}
 
 <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+<script type="text/javascript">
+    (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () {
+            (m[i].a = m[i].a || []).push(arguments)
+        };
+        m[i].l = 1 * new Date();
+        for (var j = 0; j < document.scripts.length; j++) {
+            if (document.scripts[j].src === r) {
+                return;
+            }
+        }
+        k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-   ym(96005529, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
+    ym(96005529, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true
+    });
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/96005529" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/96005529" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
 <!-- /Yandex.Metrika counter -->
 
 </body>
