@@ -10,52 +10,51 @@
     <h5 class="text-center mb-3">ГОСТ 33259-2015</h5>
     <h5 class="text-center mb-3">"Фланцы арматуры, соединительных частей и трубопроводов на номинальное
         давление до PN 250."</h5>
-    <form class="row g-3" action="{% url 'gost33259' %}" method="POST">
+    <form class="row" action="{% url 'gost33259' %}" method="POST">
         {% csrf_token %}
-        <div class="col-xxl-3 col-lg-6">
+        <div class="col-12 col-md-6 col-xl-3">
             {{ form.type_fl | as_crispy_field }}
         </div>
-        <div class="col-xxl-3 col-lg-6">
+        <div class="col-12 col-md-6 col-xl-3">
             {{ form.surface | as_crispy_field }}
         </div>
-        <div class="col-xxl-3 col-lg-6">
+        <div class="col-12 col-md-6 col-xl-3">
             {{ form.dn_passage | as_crispy_field }}
         </div>
-        <div class="col-xxl-3 col-lg-6">
+        <div class="col-12 col-md-6 col-xl-3">
             {{ form.pn | as_crispy_field }}
         </div>
-        <div class="col-xxl-3 col-lg-6">
+        <div class="col-12 col-md-6 col-xl-3">
             {{ form.row | as_crispy_field }}
         </div>
-        <div class="col-12 gy-3">
+        <div class="col-12">
             <input type="submit" value="Найти" class="btn btn-primary">
         </div>
     </form>
 
 
     {% if flange_data %}
-
         <div class="row align-items-center">
             {% for ft in drawing_flange_type %}
-                <div class="col-xl-8 col-md-12">
+                <div class="col-12 col-md-8">
                     <img class="mx-auto d-block align-middle" src="{{ ft.flange_drawing.url }}">
                     <p class="text-center">Тип фланца: "{{ form_data.type_fl.value }}"</p>
                 </div>
             {% endfor %}
 
             {% for fs in drawing_flange_surface %}
-                <div class="col-xl-4 col-md-12">
+                <div class="col-12 col-md-4">
                     <img class="mx-auto d-block align-middle" src="{{ fs.surface_drawing.url }}">
                     <p class="text-center">Уплотнительная поверхность: "{{ form_data.surface.value }}"</p>
                 </div>
             {% endfor %}
         </div>
 
-
+        <h6 class="text-center">Размеры</h6>
         <div class="row">
-            <div class="col-xl-8 col-md-12">
+            <div class="col-12 col-md-11 col-xl-8 table-responsive-sm">
                 <table class="table table-bordered caption-top">
-                    <caption>Размеры фланца (Ряд: {{ form_data.row.value }})</caption>
+                    <caption>Фланец (Ряд: {{ form_data.row.value }})</caption>
                     <thead>
                     <tr>
                         {% for value in flange_data %}
@@ -77,9 +76,9 @@
                 </table>
             </div>
 
-            <div class="col-xl-4 col-md-12">
+            <div class="col-12 col-md-6 col-xl-4">
                 <table class="table table-bordered caption-top">
-                    <caption>Размеры уплотнительной поверхности (Ряд: {{ form_data.row.value }})</caption>
+                    <caption>Уплотнительная поверхность (Ряд: {{ form_data.row.value }})</caption>
                     <thead>
                     <tr>
                         {% for value in surface_data %}

@@ -10,7 +10,7 @@
     <h5 class="text-center mb-3">"Днища эллиптические отбортованные стальные для сосудов, аппаратов и котлов."</h5>
     <form class="row" action="{% url 'gost6533' %}" method="POST">
         {% csrf_token %}
-        <div class="col-4">
+        <div class="col-12 col-md-4">
             <label>{{ form.drawing.label }}</label>
             <select name="{{ form.drawing.name }}" id="id_drawing" class="form-select"
                     aria-label="Default select example">
@@ -19,12 +19,12 @@
                 {% endfor %}
             </select>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
             <label>{{ form.diameter.label }}</label>
             <select name="{{ form.diameter.name }}" id="id_diameter" class="form-select" aria-label="Default select example">
             </select>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-md-4">
             <label>{{ form.thickness.label }}</label>
             <select name="{{ form.thickness.name }}" id="id_thickness" class="form-select"
                     aria-label="Default select example">
@@ -75,32 +75,32 @@
     {% else %}
 
         <div class="row align-items-center mt-3">
-            <div class="col">
+            <div class="col-12 col-md-6 col-xl-4">
                 <img src="{% static 'images/gost/bottom/gost6533/drawing1.png' %}" class="mx-auto d-block align-middle"
                      alt="Чертеж 1">
-                <p class="text-center">Чертеж 1</p>
                 <div class="text-center">
-                    Основные размеры днищ с наружными базовыми размерами<br>
+                    Основные размеры днищ с наружными базовыми размерами
                     и высотой эллиптической части hн = 0,25 &#215 Dн
                 </div>
+                <p class="text-center">Чертеж 1</p>
             </div>
-            <div class="col">
+            <div class="col-12 col-md-6 col-xl-4">
                 <img src="{% static 'images/gost/bottom/gost6533/drawing2.png' %}" class="mx-auto d-block align-middle"
                      alt="Чертеж 2">
-                <p class="text-center">Чертеж 2</p>
                 <div class="text-center">
-                    Основные размеры днищ с внутренними базовыми размерами<br>
+                    Основные размеры днищ с внутренними базовыми размерами
                     и высотой эллиптической части hв = 0,25 &#215 Dв
                 </div>
+                <p class="text-center">Чертеж 2</p>
             </div>
-            <div class="col">
+            <div class="col-12 col-md-6 col-xl-4">
                 <img src="{% static 'images/gost/bottom/gost6533/drawing2.png' %}" class="mx-auto d-block align-middle"
                      alt="Чертеж 3">
-                <p class="text-center">Чертеж 3</p>
                 <div class="text-center">
-                    Основные размеры днищ с внутренними базовыми размерами<br>
+                    Основные размеры днищ с внутренними базовыми размерами
                     и высотой эллиптической части hв = 0,2 &#215 Dв
                 </div>
+                <p class="text-center">Чертеж 3</p>
             </div>
         </div>
     {% endif %}

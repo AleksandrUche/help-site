@@ -8,7 +8,7 @@
 {% block menu %}
     <div class="container">
         <div class="row">
-            <aside class="col-3 gy-4">
+            <aside class="col-12 col-md-3 col-xl-2 my-3">
                 <div class="list-group">
                     <a class="list-group-item list-group-item-primary">Фланцы</a>
                     <a href="{% url 'gost33259' %}" class="list-group-item list-group-item-action">ГОСТ 33259-2015</a>
@@ -22,9 +22,7 @@
                 </div>
             </aside>
 
-
-
-            <main class="col-9 gy-4">
+            <div class="col col-md-9 col-xl-10 my-3">
                 {% block documents_main %}
                     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
@@ -78,7 +76,7 @@
                         </button>
                     </div>
                 {% endblock %}
-            </main>
+            </div>
 
         </div>
     </div>

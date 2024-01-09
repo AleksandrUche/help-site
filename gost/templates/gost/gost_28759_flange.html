@@ -9,18 +9,18 @@
 {% block documents_main %}
     <h5 class="text-center mb-3">ГОСТ 28759.3-2022</h5>
     <h5 class="text-center mb-3">"Фланцы сосудов и аппаратов стальные приварные встык."</h5>
-    <form class="row g-3" action="{% url 'gost28759' %}" method="POST">
+    <form class="row" action="{% url 'gost28759' %}" method="POST">
         {% csrf_token %}
-        <div class="col-xxl-3 col-lg-6">
+        <div class="col-12 col-md-4">
             {{ form.execution | as_crispy_field }}
         </div>
-        <div class="col-xxl-3 col-lg-6">
+        <div class="col-12 col-md-4">
             {{ form.dn_passage | as_crispy_field }}
         </div>
-        <div class="col-xxl-3 col-lg-6">
+        <div class="col-12 col-md-4">
             {{ form.pn | as_crispy_field }}
         </div>
-        <div class="col-12 gy-3">
+        <div class="col-12">
             <input type="submit" value="Найти" class="btn btn-primary">
         </div>
     </form>
@@ -31,7 +31,7 @@
         <div class="row align-items-center">
             {% for ft in drawing_flange_execution %}
                 <div>
-                    <img class="mx-auto d-block align-middle"
+                    <img class="mx-auto d-block align-middle img-fluid"
                          src="{{ ft.execution_drawing.url }}"
                          width="550">
                     <p class="text-center">Исполнение фланца "{{ form_data.execution.value }}"</p>
@@ -40,10 +40,9 @@
         </div>
 
 
-        <div class="row">
-
-            <table class="table table-bordered caption-top">
-                <caption>Размеры фланца</caption>
+        <div class="table-responsive-lg">
+            <table class="table table-bordered">
+                <caption class="caption-top">Размеры фланца</caption>
                 <thead>
                 <tr>
                     {% for value in flange_data %}
@@ -63,7 +62,6 @@
                 </tr>
                 </tbody>
             </table>
-
         </div>
 
         {% if mass_flange %}
