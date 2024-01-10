@@ -12,7 +12,7 @@ urlpatterns = [
     path('documents/', include('gost.urls')),
     # path('calc-capacitive-equipment/', include('capacitive_equipment.urls')),
     path('calculator_weight/', include('calculator_weight.urls'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
