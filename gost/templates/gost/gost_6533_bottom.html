@@ -2,6 +2,7 @@
 {% load static %}
 {% load filters %}
 {% load verbose_names %}
+{% load crispy_forms_tags %}
 
 {% block title %}ГОСТ 6533-78{% endblock %}
 
@@ -11,26 +12,15 @@
     <form class="row" action="{% url 'gost6533' %}" method="POST">
         {% csrf_token %}
         <div class="col-12 col-md-4">
-            <label>{{ form.drawing.label }}</label>
-            <select name="{{ form.drawing.name }}" id="id_drawing" class="form-select"
-                    aria-label="Default select example">
-                {% for value, text in form.drawing.field.choices %}
-                    <option value="{{ value }}">{{ text }}</option>
-                {% endfor %}
-            </select>
+            {{ form.drawing | as_crispy_field }}
         </div>
         <div class="col-12 col-md-4">
-            <label>{{ form.diameter.label }}</label>
-            <select name="{{ form.diameter.name }}" id="id_diameter" class="form-select" aria-label="Default select example">
-            </select>
+            {{ form.diameter | as_crispy_field }}
         </div>
         <div class="col-12 col-md-4">
-            <label>{{ form.thickness.label }}</label>
-            <select name="{{ form.thickness.name }}" id="id_thickness" class="form-select"
-                    aria-label="Default select example">
-            </select>
+            {{ form.thickness | as_crispy_field }}
         </div>
-        <div class="col-12 gy-3">
+        <div class="col-12">
             <input type="submit" value="Найти" class="btn btn-primary">
         </div>
     </form>

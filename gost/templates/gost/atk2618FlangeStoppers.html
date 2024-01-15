@@ -2,6 +2,7 @@
 {% load static %}
 {% load filters %}
 {% load verbose_names %}
+{% load crispy_forms_tags %}
 
 {% block title %}АТК 26-18-5-93{% endblock %}
 
@@ -11,27 +12,15 @@
     <form class="row" action="{% url 'atk26185' %}" method="POST">
         {% csrf_token %}
         <div class="col-12 col-md-4">
-            <label>{{ form.execution.label }}</label>
-            <select name="{{ form.execution.name }}" id="id_execution" class="form-select"
-                    aria-label="Default select example">
-                {% for value, text in form.execution.field.choices %}
-                    <option value="{{ value }}">{{ text }}</option>
-                {% endfor %}
-            </select>
+            {{ form.execution | as_crispy_field }}
         </div>
         <div class="col-12 col-md-4">
-            <label>{{ form.pn.label }}</label>
-            <select name="{{ form.pn.name }}" id="id_pn" class="form-select"
-                    aria-label="Default select example">
-            </select>
+            {{ form.pn | as_crispy_field }}
         </div>
         <div class="col-12 col-md-4">
-            <label>{{ form.dn_passage.label }}</label>
-            <select name="{{ form.dn_passage.name }}" id="id_dn_passage" class="form-select"
-                    aria-label="Default select example">
-            </select>
+            {{ form.dn_passage | as_crispy_field }}
         </div>
-        <div class="col-12 gy-3">
+        <div class="col-12">
             <input type="submit" value="Найти" class="btn btn-primary">
         </div>
     </form>

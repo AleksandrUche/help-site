@@ -62,8 +62,8 @@ class Atk261813Form(forms.Form):
         ('6', 'Исполнение 6'),
     )
     execution = forms.ChoiceField(label='Исполнение', choices=EXECUTION_CHOICES)
-    pn = forms.CharField(label='Py, МПа')
-    dn_passage = forms.CharField(label='Dy')
+    pn = forms.CharField(label='Py, МПа', widget=forms.Select)
+    dn_passage = forms.CharField(label='Dy', widget=forms.Select)
 
 
 class Gost6533Form(forms.Form):
@@ -75,8 +75,8 @@ class Gost6533Form(forms.Form):
         ('3', 'Чертеж 3'),
     )
     drawing = forms.ChoiceField(label='Чертеж', choices=DRAWING_CHOICES)
-    diameter = forms.CharField(label='Диаметр')
-    thickness = forms.CharField(label='Толщина, s')
+    diameter = forms.CharField(label='Диаметр', widget=forms.Select)
+    thickness = forms.CharField(label='Толщина, s', widget=forms.Select)
 
 
 class Atk24200FlangeStoppersForm(forms.Form):
@@ -90,8 +90,8 @@ class Atk24200FlangeStoppersForm(forms.Form):
         ('5', 'Исполнение 5'),
     )
     execution = forms.ChoiceField(label='Исполнение', choices=EXECUTION_CHOICES)
-    pn = forms.CharField(label='Py, МПа')
-    dn_passage = forms.CharField(label='Dy')
+    pn = forms.CharField(label='Py, МПа', widget=forms.Select)
+    dn_passage = forms.CharField(label='Dy', widget=forms.Select)
 
 
 class Atk26185FlangeStoppersForm(forms.Form):
@@ -103,5 +103,5 @@ class Atk26185FlangeStoppersForm(forms.Form):
         ('3', 'Исполнение 3'),
     )
     execution = forms.ChoiceField(label='Исполнение', choices=EXECUTION_CHOICES)
-    pn = forms.CharField(label='Py, МПа')
-    dn_passage = forms.CharField(label='Dy')
+    pn = forms.CharField(label='Py, МПа', widget=forms.Select)
+    dn_passage = forms.CharField(label='Dy', widget=forms.Select)
